@@ -15,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   }));
-  
-export default function SearchBar() {
+
+  function SearchBar() {
     const [term, setTerm] = useState('');
     
     
@@ -26,18 +26,29 @@ export default function SearchBar() {
       setTerm(event.target.value);
     };
 
-    const handleClick = () => {
-        this.props.fetchTwitter(setTerm)
-    }
         return (
-            <form className={classes.root} noValidate onSubmit={handleClick}>
-                <FormControl variant="outlined" >
+           <div>
+            <form className={classes.root} noValidate onSubmit = {()=> this.props.fetchTweets(term)}>
+                <FormControl variant="outlined"   >
                     <OutlinedInput id="component-outlined" value={term} onChange={handleChange}/>
-                    <SearchButtons />
                 </FormControl>
+                <SearchButtons />
             </form> 
-        
+          
+            </div>
           );
     }
+
+    function mapStateToProps(state) {
+        console.log(state)
+    
+        return ({
+        state
+        })
+       
+      }
+        
+    export default connect(mapStateToProps, actions)(SearchBar);
+
 
 
