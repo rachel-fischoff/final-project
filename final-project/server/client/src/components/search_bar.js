@@ -1,11 +1,12 @@
 import React from 'react';
-import {Component, useState} from 'react';
-import * as actions from '../actions/index';
-import { connect } from 'react-redux';
-import SearchButtons from '../material_ui/buttons'
+import {useState} from 'react';
+import {fetchTweets} from '../actions/index';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import FormControl from '@material-ui/core/FormControl';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import SearchIcon from '@material-ui/icons/Search';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -14,41 +15,65 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
       },
     },
+    button: {
+        margin: theme.spacing(1),
+      },
   }));
 
-  function SearchBar() {
+  
+export default function SearchBar () { 
     const [term, setTerm] = useState('');
-    
+    const dispatch = useDispatch(); 
     
     const classes = useStyles();
   
     const handleChange = (event) => {
       setTerm(event.target.value);
     };
+    
+   const handleClick = () => {
+     console.log(fetchTweets)
+    dispatch(fetchTweets())
+   } 
 
-        return (
+        return ( 
            <div>
-            <form className={classes.root} noValidate onSubmit = {()=> this.props.fetchTweets(term)}>
+            <form className={classes.root} noValidate >
+                {/* TO DO : Link to search results  */}
                 <FormControl variant="outlined"   >
                     <OutlinedInput id="component-outlined" value={term} onChange={handleChange}/>
                 </FormControl>
-                <SearchButtons />
+                <div>
+
+                    <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    size="large"
+                    type = "submit"
+                    startIcon={<SearchIcon>SearchIcon</SearchIcon>}
+                    onClick={handleClick}
+                    >
+                    Search
+                    </Button>
+
+                </div>
             </form> 
           
             </div>
           );
     }
-
-    function mapStateToProps(state) {
-        console.log(state)
+  
+    // function mapStateToProps(state) {
+    //     console.log(state.term)
     
-        return ({
-        state
-        })
+    //     return ({
+    //     term : state.term
+    //     })
        
-      }
+    //   }
         
-    export default connect(mapStateToProps, actions)(SearchBar);
+    // export default connect(mapStateToProps, null)(SearchBar);
 
 
 

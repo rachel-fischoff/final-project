@@ -23,6 +23,7 @@ export default function SearchButton() {
         size="large"
         type = "submit"
         startIcon={<SearchIcon>SearchIcon</SearchIcon>}
+        onClick={() => dispatch(fetchTweets())}
       >
         Search
       </Button>

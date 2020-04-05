@@ -1,8 +1,7 @@
 import React from 'react';
 import './App.css';
 import SearchBar from "./components/search_bar";
-import SearchResults from './components/search_results';
-import NGram from './components/n_gram'
+import SearchResultsGrid from './components/search_results_grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 
@@ -11,11 +10,12 @@ function App() {
   return (
     <React.Fragment>
     <CssBaseline />
+  
     <div className="App text-center">
+    <h1>Final Project</h1>
      <br/>
      <SearchBar/>
-     <SearchResults/>
-     <NGram/>
+     <SearchResultsGrid/>
      </div>
      </React.Fragment>
 
