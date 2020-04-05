@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {fetchTweets} from '../actions/index';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import FormControl from '@material-ui/core/FormControl';
@@ -7,6 +7,7 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
+import axios from 'axios'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -22,8 +23,10 @@ const useStyles = makeStyles((theme) => ({
 
   
 export default function SearchBar () { 
+  
     const [term, setTerm] = useState('');
-    const dispatch = useDispatch(); 
+    const [search, setSearch] = useState('');
+    // const dispatch = useDispatch(); 
     
     const classes = useStyles();
   
@@ -31,10 +34,24 @@ export default function SearchBar () {
       setTerm(event.target.value);
     };
     
-   const handleClick = () => {
-     console.log(fetchTweets)
-    dispatch(fetchTweets())
-   } 
+    useEffect(() => {
+      const fetchTweets = async (search) => {
+        const result = await axios(
+          `http://localhost:5000/${search}`,
+        );
+           console.log(result)
+      };
+      fetchTweets();
+    }, [search]);
+
+
+    // useEffect(() => {
+    //     dispatch(fetchTweets(term))
+    //   }, [term]); 
+
+  //  const handleClick = (term) => {
+  //    console.log(fetchTweets)
+  //   dispatch(fetchTweets(term))} 
 
         return ( 
            <div>
@@ -52,8 +69,7 @@ export default function SearchBar () {
                     size="large"
                     type = "submit"
                     startIcon={<SearchIcon>SearchIcon</SearchIcon>}
-                    onClick={handleClick}
-                    >
+                    onClick={() => setSearch(term)}>
                     Search
                     </Button>
 
