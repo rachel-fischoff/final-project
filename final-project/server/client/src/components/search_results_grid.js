@@ -1,18 +1,18 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid'
-import SearchResultsCard from './search_results_card'
-
-
+import SearchResultsCardTwitter from './search_results_card_twitter'
+import SearchResultsCardText from './search_results_card_text'
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
+import { sizing } from '@material-ui/system';
+import SearchResultsPaper from './search_results_as_paper'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-  },
-  card: {
-    padding: theme.spacing(2),
     textAlign: 'center',
-    color: theme.palette.text.secondary,
+    width: "100%",
   },
 }));
 
@@ -20,12 +20,22 @@ export default function SearchResultsGrid() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <Grid container spacing={3} direction="row" justify="space-evenly">
-        <Grid item xs={12} sm={6}>
-          <SearchResultsCard/>
+    <React.Fragment>
+    <div className={classes.root} >
+      <Grid container spacing={40} style={{paddingLeft: 0, paddingRight: 0}}>
+        <Grid item xs={12}>
+          <GridList>
+          {/* <GridList cols={2]}> */}
+          <GridListTile style={{ height: 'auto'}}>
+        <SearchResultsPaper/>
+        </GridListTile>
+        {/* <GridListTile style={{ height: 'auto'}}>
+        <SearchResultsCardText/>
+        </GridListTile> */}
+        </GridList>
         </Grid>
         </Grid>
         </div>
+        </React.Fragment>
         )
       }

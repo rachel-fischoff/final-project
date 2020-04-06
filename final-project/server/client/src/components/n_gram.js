@@ -6,6 +6,8 @@ export default function NGram  () {
     
 let data = [{text: 'the world is ending', sentiment: 'neg'}, {text: 'i am scared i wont finish anything worthwhile', sentiment: 'neg'}, {text:'i love samantha so much!', sentiment: 'pos'}]
 
+
+
 // const nGramsArray = [];
 // const nGramsResult = data.map(item => ([{nGram: (nGrams(item.text, 3))}, {sentiment: item.sentiment}]))
 // console.log(nGramsResult)  
@@ -31,43 +33,38 @@ function nGrams(sentence, n) {
     }
     return grams;
   }
-
-
         return(
             data.map(element => {
-                if(element.sentiment ='pos') {
-                    let result = nGrams(element.text, 3)
-                   
-                    return (
-            <div style={{"color": "green"}}>
+                if(element.sentiment ='pos') {   
+                    let result = (nGrams(element.text, 3))
+                return(
+            <div style={{"color": "green"}} key ={data.indexOf(element)}>
                 <CardContent>
                 <Typography paragraph>NGrams</Typography>
-                <Typography paragraph>
-                {'//' + result  + '//'}
+                <Typography paragraph> 
+                {result.map(item=> '//' + item)}
                 </Typography>
                 </CardContent>
             </div> )
-                 } else if (element.sentiment = 'neg') {
-                    let result = nGrams(element.text, 3)
+                 } if (element.sentiment = 'neg') {
+                     let result = nGrams(element.text, 3)
                      return(
-                    <div style={{"color": "red"}}>
+                    <div style={{"color": "red"}} key ={data.indexOf(element)}>
                     <CardContent>
                     <Typography paragraph>NGrams</Typography>
                     <Typography paragraph>
-                    {'//' + result + '//'}
+                    {result}
                     </Typography>
                     </CardContent>
-                    
-                </div> )
-                } else if ( element.sentiment = 'neu') {
-                    let result = nGrams(element.text, 3)
-        
+                </div> )} 
+                    if ( element.sentiment = 'neu') {
+                        let result = nGrams(element.text, 3)
                     return (
-                    <div style={{"color": "yellow"}}>
+                    <div style={{"color": "yellow"}}  key ={data.indexOf(element)}>
                     <CardContent>
                     <Typography paragraph>NGrams</Typography>
                     <Typography paragraph>
-                    {'//' + result +'//'}
+                    {result}
                     </Typography>
                     </CardContent>
                 </div>

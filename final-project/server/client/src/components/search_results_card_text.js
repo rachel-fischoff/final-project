@@ -41,14 +41,14 @@ const useStyles = makeStyles((theme) => ({
     },
     card: {
         padding: theme.spacing(2),
-        textAlign: 'center',
+        textAlign: 'justify',
         color: theme.palette.text.secondary,
       },
   }));
 
   const statuses = twitter.statuses 
 
-  export default function SearchResultsCard() {
+  export default function SearchResultsCardText() {
   const classes = useStyles();
 
   const [expanded, setExpanded] = React.useState(false);
@@ -74,14 +74,14 @@ return (
                 title= {elem.username}
                 subheader={elem.percentage}
             />
-            <CardMedia
+            {/* <CardMedia
                 className={classes.media}
                 image="https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fblogs-images.forbes.com%2Fceliashatzman%2Ffiles%2F2017%2F09%2FRihanna-Headshot-1200x1800.jpg"
                 title="Rihanna"
-            />
+            /> */}
 
             <CardContent>
-                <Typography variant="body2" color="textSecondary" component="p">
+                <Typography variant="body2" color="" component="p">
                     {elem.text}
                 </Typography>
             </CardContent>
