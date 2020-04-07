@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -13,6 +14,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import SearchIcon from '@material-ui/icons/Search';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
+
 
 const StyledMenu = withStyles({
     paper: {
@@ -87,32 +89,25 @@ export default function NavBar() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-        <StyledMenuItem>
+        <StyledMenuItem button component={Link} to="/twitter">
           <ListItemIcon>
             <SearchIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText primary="Search Twitter by Subject" />
         </StyledMenuItem>
-        <StyledMenuItem>
-          <ListItemIcon>
+        <StyledMenuItem button component={Link} to="/text">
+          <ListItemIcon >
             <TextFieldsIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText primary="Enter Text" />
         </StyledMenuItem>
-        {/* <StyledMenuItem>
-          <ListItemIcon>
-            <InboxIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText primary="Inbox" />
-        </StyledMenuItem> */}
-      </StyledMenu>
-        
-          <Typography variant="h6" className={classes.title}>
+        </StyledMenu>    
+         <Typography variant="h6" className={classes.title}>
             Sentiment Anaylsis 
           </Typography>
-          <Button color="inherit" startIcon={<HomeIcon>HomeIcon</HomeIcon>}>HOME</Button>
+          <Button color="inherit" startIcon={<HomeIcon>HomeIcon</HomeIcon>} component={Link} to="/">HOME</Button>
         </Toolbar>
-        {/* <Toolbar /> */}
+
       </AppBar>
     </div>
   );

@@ -1,27 +1,26 @@
 import React from 'react';
 import './App.css';
+import { withRouter } from "react-router-dom";
+import * as actions from './actions';
+import { connect } from "react-redux";
 import NavBar from './components/nav_bar'
-import SearchBar from "./components/search_bar";
-import SearchResultsGrid from './components/search_results_grid';
-import SearchResultsPaper from './components/search_results_as_paper'
-import CssBaseline from '@material-ui/core/CssBaseline';
+
+// console.log(process.env.TWITTER_API_KEY)
+
+class App extends React.Component {
 
 
-function App() {
-
-  return (
-    <React.Fragment>
-    <CssBaseline />
-  
-    <div className="App text-center">
-      <NavBar/>
-     <br/>
-     <br/>
-     <SearchResultsPaper/>
-     </div>
-     </React.Fragment>
-
-  );
+  render() {
+    return (
+      <div>
+        <NavBar/>
+        {this.props.children}
+      </div>
+    )
+  }
 }
 
-export default App;
+export default withRouter(connect(
+  null,
+  actions
+)(App));

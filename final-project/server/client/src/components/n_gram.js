@@ -1,75 +1,78 @@
 import React from 'react';
+import {Component} from 'react';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
-export default function NGram  () {
-    
-let data = [{text: 'the world is ending', sentiment: 'neg'}, {text: 'i am scared i wont finish anything worthwhile', sentiment: 'neg'}, {text:'i love samantha so much!', sentiment: 'pos'}]
+
+const data = [{text: 'the world is ending', sentiment: 'neg'}, 
+{text: 'i am scared i wont finish anything worthwhile', sentiment: 'neg'}, 
+{text:'i love samantha so much!', sentiment: 'pos'}]
 
 
+export default class NGram extends Component  {
 
-// const nGramsArray = [];
-// const nGramsResult = data.map(item => ([{nGram: (nGrams(item.text, 3))}, {sentiment: item.sentiment}]))
-// console.log(nGramsResult)  
+    constructor(props) {
+        super(props);
+        this.state = {
+        };
+        this.nGrams = this.nGrams.bind(this)
+      }     
 
-// nGramsArray.push(nGramsResult)
-
-// console.log(nGramsArray)
-
-function nGrams(sentence, n) {
-    // Split sentence up into words
-    var words = sentence.split(/\W+/);
-    // Total number of n-grams we will have
-    var total = words.length - n;
-    var grams = [];
-    // Loop through and create all sequences
-    for (var i = 0; i <= total; i++) {
-      var seq = '';
-      for (var j = i; j < i + n; j++) {
-        seq += words[j] + ' ';
+    nGrams(sentence, n) {
+        // Split sentence up into words
+        var words = sentence.split(/\W+/);
+        // Total number of n-grams we will have
+        var total = words.length - n;
+        var grams = [];
+        // Loop through and create all sequences
+        for (var i = 0; i <= total; i++) {
+          var seq = '';
+          for (var j = i; j < i + n; j++) {
+            seq += words[j] + ' ';
+          }
+          // Add to array
+          grams.push(seq);
+        }
+        return grams;
       }
-      // Add to array
-      grams.push(seq);
-    }
-    return grams;
-  }
+    
+
+      renderNgrams() { 
         return(
-            data.map(element => {
-                if(element.sentiment ='pos') {   
-                    let result = (nGrams(element.text, 3))
-                return(
-            <div style={{"color": "green"}} key ={data.indexOf(element)}>
-                <CardContent>
-                <Typography paragraph>NGrams</Typography>
-                <Typography paragraph> 
-                {result.map(item=> '//' + item)}
+        <div>
+        <CardContent>
+        <Typography paragraph color="textPrimary">NGrams</Typography>
+        </CardContent>
+        {data.map(element => {
+            let result = this.nGrams(element.text, 3)
+            if (element.sentiment = 'pos')
+            return( 
+                <Typography paragraph>  
+                <span style={{color: 'green'}}>{result.map(item => '//' + item)}</span>
                 </Typography>
-                </CardContent>
-            </div> )
-                 } if (element.sentiment = 'neg') {
-                     let result = nGrams(element.text, 3)
-                     return(
-                    <div style={{"color": "red"}} key ={data.indexOf(element)}>
-                    <CardContent>
-                    <Typography paragraph>NGrams</Typography>
-                    <Typography paragraph>
-                    {result}
-                    </Typography>
-                    </CardContent>
-                </div> )} 
-                    if ( element.sentiment = 'neu') {
-                        let result = nGrams(element.text, 3)
-                    return (
-                    <div style={{"color": "yellow"}}  key ={data.indexOf(element)}>
-                    <CardContent>
-                    <Typography paragraph>NGrams</Typography>
-                    <Typography paragraph>
-                    {result}
-                    </Typography>
-                    </CardContent>
-                </div>
+            )
+            if (element.sentiment = 'neg')
+            return( 
+                <Typography paragraph color="red">  
+                  <span style={{color: 'red'}}>{result.map(item => '//' + item)}</span>
+                </Typography>
+            )
+              if (element.sentiment = 'neu')
+              return( 
+                  <Typography paragraph>  
+                    <span style={{color: 'yellow'}}>{result.map(item => '//' + item)}</span>
+                  </Typography>
+                ) }
+            )}
+            </div>
+        )
+      }
+
+        render() {
+                return (
+                    <div>
+                   {this.renderNgrams()}
+                     </div>
                     )
                 }
-            })
-            )
 }

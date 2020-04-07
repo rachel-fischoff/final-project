@@ -1,8 +1,7 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
+import {Link} from "react-router-dom"
 import {fetchTweets} from '../actions/index';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import FormControl from '@material-ui/core/FormControl';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -14,11 +13,13 @@ import Typography from '@material-ui/core/Typography';
 
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-      '& > *': {
-        margin: theme.spacing(1),
-      },
-    },
+  root: {
+    flexGrow: 1,
+    textAlign: 'center',
+    '& > *': {
+      margin: theme.spacing(1),
+    }
+  },
     button: {
         margin: theme.spacing(1),
       },
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   
-export default function SearchBar () { 
+export default function SearchBarTwitter () { 
   
     const [term, setTerm] = useState('');
     const [search, setSearch] = useState('');
@@ -53,36 +54,11 @@ export default function SearchBar () {
     }, [search]);
 
 
-    // useEffect(() => {
-    //     dispatch(fetchTweets(term))
-    //   }, [term]); 
-
-  //  const handleClick = (term) => {
-  //    console.log(fetchTweets)
-  //   dispatch(fetchTweets(term))} 
-
         return ( 
           <div>
-            <div className={classes.root} >
-                <h4>Search for a Tweet by Subject</h4>
-                {/* TO DO : Link to search results  */}
-                    <OutlinedInput id="component-outlined" value={term} onChange={handleChange}/>
 
-                    <Button
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                    size="large"
-                    type = "submit"
-                    startIcon={<InputIcon>InputIcon</InputIcon>}
-                    onClick={() => setSearch(term)}>
-                    Predict Sentiment
-                    </Button>
-
-                    
-            </div>
                 <div className={classes.root} >
-                <h4>Enter Text</h4>
+                <h4>Find Tweets by Subject</h4>
                 {/* TO DO : Link to search results  */}
                     <OutlinedInput id="component-outlined 2" value={term} onChange={handleChange}/>
 
@@ -93,7 +69,7 @@ export default function SearchBar () {
                         size="large"
                         type = "submit"
                         startIcon={<InputIcon>InputIcon</InputIcon>}
-                        onClick={() => setSearch(term)}>
+                        component={Link} to="/twitter/sentiment">
                         Predict Sentiment
                         </Button>
 

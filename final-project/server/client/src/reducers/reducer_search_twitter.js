@@ -1,8 +1,8 @@
 import {FETCH_TWEETS} from "../actions/index";
 
 const INITIAL_STATE = {
-    term:'',
-    statuses: []
+  text: '',
+  term: '',
 }
   
   export default (state = INITIAL_STATE, action) => {
