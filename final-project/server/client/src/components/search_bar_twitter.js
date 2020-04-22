@@ -10,6 +10,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputIcon from '@material-ui/icons/Input'
 import axios from 'axios'
 import Typography from '@material-ui/core/Typography';
+import NavBar from './nav_bar'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -42,21 +43,10 @@ export default function SearchBarTwitter () {
     const handleChange = (event) => {
       setTerm(event.target.value);
     };
-    
-    useEffect(() => {
-      const fetchTweets = async (search) => {
-        const result = await axios(
-          `http://localhost:5000/${search}`,
-        );
-           console.log(result)
-      };
-      fetchTweets();
-    }, [search]);
-
-
-        return ( 
+  
+      return ( 
           <div>
-
+            <NavBar/>
                 <div className={classes.root} >
                 <h4>Find Tweets by Subject</h4>
                 {/* TO DO : Link to search results  */}

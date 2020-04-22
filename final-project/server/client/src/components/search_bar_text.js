@@ -1,12 +1,12 @@
 import React from 'react';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux'
-import {Link} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import InputIcon from '@material-ui/icons/Input'
-
+import NavBar from './nav_bar'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,32 +27,43 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   
-export default function SearchBarText (props) { 
+export default function SearchBarText () { 
   const classes = useStyles()
-  const dispatch = useDispatch()
 
-  const [inputType] = useState(props.type)
+  const dispatch = useDispatch();
+  let history = useHistory();
+
   const [inputValue, setInputValue] = useState('')
-
-  const changeInputValue = (newValue) => {
-
-      dispatch({ type: 'UPDATE_INPUT', data: newValue});
-  };
+  const [text, setText]= useState(inputValue)
 
 
-  function handleChange(event){
+  // const selectedItem = useSelector( state => state.text)
+
+  const handleInput = (event) => {
     setInputValue(event.target.value);
-    if(props.onChange) props.onChange(inputValue)
+    console.log('inputValue' + inputValue)
   }
+  
+//   const updateText = (event) => {
+//     event.preventDefault();
+//     setText(inputValue);
+//     history.push('/text/sentiment', {inputValue: inputValue})
+//   }
 
-        
+// useEffect(() => {
+// if(inputValue) {
+//   history.push('/text/sentiment', { inputValue });
+// }}, [inputValue])
+
     return ( 
           <div>
+               <NavBar/>
                 <div className={classes.root} >
-                <form>
+                {/* <form onSubmit = {updateText}> */}
               <h4>Enter Text</h4>
               {/* TO DO : Link to search results  */}
-                  <OutlinedInput id="component-outlined 2" value={inputValue} onChange={changeInputValue}/>
+                  <OutlinedInput id="component-outlined 2" value={inputValue} onChange={handleInput}/>
+                      <Link to={{ pathname: "/text/sentiment", state: {inputValue: inputValue}}}>
                       <Button
                       variant="contained"
                       color="primary"
@@ -60,11 +71,15 @@ export default function SearchBarText (props) {
                       size="large"
                       type = "submit"
                       startIcon={<InputIcon>InputIcon</InputIcon>}
-                      component={Link} to="/texts/sentiment"
+                      // onClick={updateText}
+                      // component={Link} to={"/texts/sentiment", {text}, console.log(text  + 'from txxt')}
+          
                       >
                        Predict Sentiment
                      </Button> 
-                </form>
+                    
+                     </Link>
+                {/* </form> */}
             </div>
             </div>
           );

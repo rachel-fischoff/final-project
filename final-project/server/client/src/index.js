@@ -26,8 +26,8 @@ render(
   <Provider store={store}>
     <Router  >
       <React.Fragment>
+      <CssBaseline />
         <App>
-          <CssBaseline />
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/home" component={Home} />

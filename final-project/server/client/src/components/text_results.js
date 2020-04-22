@@ -1,5 +1,5 @@
 import React from 'react';
-import {useRef, useEffect, useState, useReducer} from 'react'
+import {useRef, useEffect, useState, useContext} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper'
 import clsx from 'clsx'
@@ -9,6 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import NGram from './n_gram';
 import Box from '@material-ui/core/Box'
+import TextHighlighter from './text-highlighter'
+import NavBar from './nav_bar'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -54,26 +56,30 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-  export default function TextResults({inputValue}) {
+  export default function TextResults(props) {
   
   const classes = useStyles();
+  const inputValue = props.location.state.inputValue
+  console.log(props)
+  // console.log(context)
 
   const [expanded, setExpanded] = useState(false)
-
+ 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-
       return ( 
       
           <div className={classes.root} > 
-          {[1,2,3].map(element=>
+          <NavBar/>
             <Box className={classes.box}>
             <Paper className={classes.paper} >
-                <Typography className={classes.typography} variant="body2" color="textPrimary" fontWeight="fontWeightBold"  variant="h6">
-                  {element}
-                </Typography>
+              {/* <TextHighlighter inputValue = {inputValue, console.log(inputValue, props)}  /> */}
+                  <Typography className={classes.typography} variant="body2" color="textPrimary" fontWeight="fontWeightBold"  variant="h6">
+                    {inputValue}
+                  </Typography>
+                  {/* {console.log(text + 'text')} */}
                 <Typography fontSize={10}>
                 <IconButton
                 className={clsx(classes.expand, {
@@ -88,11 +94,10 @@ const useStyles = makeStyles((theme) => ({
                 </IconButton>
                 </Typography>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <NGram/>
+                <NGram inputValue = {inputValue} />
             </Collapse>     
             </Paper>
             </Box>
-            )}
             </div>
       )
 }

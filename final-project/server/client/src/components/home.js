@@ -1,5 +1,4 @@
-  import React, { Component } from "react";
-import { Redirect, Link } from "react-router-dom";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from '../actions';
 import NavBar from './nav_bar'
@@ -9,6 +8,7 @@ class Home extends Component {
     render(){
         return (
             <div> 
+               <NavBar/>
              <h6> HOME PAGE </h6>
             </div>
         )

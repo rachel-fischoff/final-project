@@ -13,10 +13,14 @@ export default class NGram extends Component  {
 
     constructor(props) {
         super(props);
-        this.state = {
+        this.state = {inputValue: [props.inputValue]
         };
         this.nGrams = this.nGrams.bind(this)
+    
       }     
+
+
+    
 
     nGrams(sentence, n) {
         // Split sentence up into words
@@ -43,27 +47,28 @@ export default class NGram extends Component  {
         <CardContent>
         <Typography paragraph color="textPrimary">NGrams</Typography>
         </CardContent>
-        {data.map(element => {
-            let result = this.nGrams(element.text, 3)
-            if (element.sentiment = 'pos')
+        <Typography paragraph>
+        {this.state.inputValue.map(element => {
+            let result = this.nGrams(element, 3)
+            if (element.length < 5)
+     
             return( 
-                <Typography paragraph>  
                 <span style={{color: 'green'}}>{result.map(item => '//' + item)}</span>
-                </Typography>
+  
             )
-            if (element.sentiment = 'neg')
+            if (element.length > 8)
             return( 
-                <Typography paragraph color="red">  
+              
                   <span style={{color: 'red'}}>{result.map(item => '//' + item)}</span>
-                </Typography>
+             
             )
-              if (element.sentiment = 'neu')
+              if (element.length > 10)
               return( 
-                  <Typography paragraph>  
+
                     <span style={{color: 'yellow'}}>{result.map(item => '//' + item)}</span>
-                  </Typography>
-                ) }
-            )}
+  
+            )})}
+            </Typography>
             </div>
         )
       }
