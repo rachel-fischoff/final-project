@@ -43,25 +43,12 @@ export default function SearchBarText () {
     setInputValue(event.target.value);
     console.log('inputValue' + inputValue)
   }
-  
-//   const updateText = (event) => {
-//     event.preventDefault();
-//     setText(inputValue);
-//     history.push('/text/sentiment', {inputValue: inputValue})
-//   }
-
-// useEffect(() => {
-// if(inputValue) {
-//   history.push('/text/sentiment', { inputValue });
-// }}, [inputValue])
 
     return ( 
           <div>
-               <NavBar/>
-                <div className={classes.root} >
-                {/* <form onSubmit = {updateText}> */}
+              <NavBar/>
+              <div className={classes.root} >
               <h4>Enter Text</h4>
-              {/* TO DO : Link to search results  */}
                   <OutlinedInput id="component-outlined 2" value={inputValue} onChange={handleInput}/>
                       <Link to={{ pathname: "/text/sentiment", state: {inputValue: inputValue}}}>
                       <Button
@@ -77,10 +64,8 @@ export default function SearchBarText () {
                       >
                        Predict Sentiment
                      </Button> 
-                    
-                     </Link>
-                {/* </form> */}
-            </div>
+                     </Link>  
+              </div>
             </div>
           );
     }

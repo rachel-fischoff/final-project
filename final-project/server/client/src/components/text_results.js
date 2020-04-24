@@ -9,8 +9,9 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import NGram from './n_gram';
 import Box from '@material-ui/core/Box'
-import TextHighlighter from './text-highlighter'
+// import TextHighlighter from './text-highlighter'
 import NavBar from './nav_bar'
+import NGramResults from './n_gram_fetch'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -94,7 +95,8 @@ const useStyles = makeStyles((theme) => ({
                 </IconButton>
                 </Typography>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <NGram inputValue = {inputValue} />
+                {/* <NGram inputValue = {inputValue} /> */}
+                <NGramResults inputValue = {inputValue}/>
             </Collapse>     
             </Paper>
             </Box>
