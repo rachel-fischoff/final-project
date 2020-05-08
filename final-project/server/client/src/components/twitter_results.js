@@ -1,4 +1,5 @@
 import React from 'react';
+import {useRef, useEffect, useState, useContext} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper'
 import clsx from 'clsx'
@@ -6,10 +7,10 @@ import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import twitter from '../sample_data'
+// import twitter from '../sample_data'
 import NGram from './n_gram';
 import Box from '@material-ui/core/Box'
-import SearchBarTwitter from './search_bar_twitter'
+import NavBar from './nav_bar'
 import Avatar from '@material-ui/core/Avatar'
 import CardHeader from '@material-ui/core/CardHeader'
 
@@ -46,23 +47,24 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-  const statuses = twitter.statuses 
-
-  export default function SearchResultsPaper() {
+  export default function TwitterResults(props) {
+  
   const classes = useStyles();
+  const term = props.location.state.term
+  console.log(term + 'term')
 
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
     return (
         <div className={classes.root}>
-    {statuses.map(elem=>
+          <NavBar/>
             <Box className={classes.box}>
             <Paper className={classes.paper} >
                 <Typography variant="body2" color="textPrimary" fontWeight="fontWeightBold"  variant="h6">
-                    {elem.text}   
+                {/* {insert twitter status} */}
                 </Typography>
                
                 <Typography>
@@ -79,16 +81,16 @@ const useStyles = makeStyles((theme) => ({
                 aria-expanded={expanded}
                 aria-label="show more"
                 label ="nGram"
-                >
+                > View NGrams
                 <ExpandMoreIcon className={classes.moreIcon}/>
                 </IconButton>
                 </Typography>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <NGram/>
+                {/* <NGramTwitterResults/> */}
+                <NGram inputValue ={term}/>
             </Collapse>     
             </Paper>
             </Box>
-             )}
         </div>
 )
 }

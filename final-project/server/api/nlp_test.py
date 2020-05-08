@@ -6,16 +6,18 @@ from nltk.corpus import stopwords
 from nltk import FreqDist, classify, NaiveBayesClassifier
 from nltk.tokenize import word_tokenize
 from nltk.util import ngrams, bigrams, trigrams
-import pymongo
-import pandas as pd
-from pymongo import MongoClient
-import pprint
+from app import anaylze_text
+import app 
+# import pymongo
+# import pandas as pd
+# from pymongo import MongoClient
+# import pprint
 
 
-client = MongoClient()
-db = client.twitter
-collection = db.tweets
-data = pd.DataFrame(list(collection.find()))
+# client = MongoClient()
+# db = client.twitter
+# collection = db.tweets
+# data = pd.DataFrame(list(collection.find()))
 
 
 #recongizes these phrase and decides if it's positive/negative 
@@ -145,7 +147,8 @@ print(classifier.show_most_informative_features(10))
 
 # custom_tweet = "I ordered just once from TerribleCo, they screwed up, never used the app again."
 
-custom_tweet = 'Today we say thank you to our grassroots donors who make this movement possible. No billionaires'
+# how do i connect these two files ???
+custom_tweet = anaylze_text()
 
 custom_tokens = remove_noise(word_tokenize(custom_tweet))
 

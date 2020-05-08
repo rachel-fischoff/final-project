@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 export default class NGram extends Component  {
 
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {inputValue: [props.inputValue]
         };
         this.nGrams = this.nGrams.bind(this)
@@ -38,10 +38,10 @@ export default class NGram extends Component  {
       renderNgrams() { 
         return(
         <div>
-        <CardContent>
-        <Typography paragraph color="textPrimary">NGrams</Typography>
-        </CardContent>
+        {/* <CardContent> */}
+      
         <Typography paragraph>
+          {console.log(this.state.inputValue)}
         {this.state.inputValue.map(element => {
             let result = this.nGrams(element, 3)
             if (element.length < 5)
@@ -63,6 +63,7 @@ export default class NGram extends Component  {
   
             )})}
             </Typography>
+            {/* </CardContent> */}
             </div>
         )
       }

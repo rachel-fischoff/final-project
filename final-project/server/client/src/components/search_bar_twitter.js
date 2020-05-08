@@ -1,6 +1,7 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
-import {Link} from "react-router-dom"
+import {Link, useHistory} from "react-router-dom"
+import {useDispatch} from 'react-redux'
 import {fetchTweets} from '../actions/index';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { makeStyles } from '@material-ui/core/styles';
@@ -35,13 +36,15 @@ const useStyles = makeStyles((theme) => ({
 export default function SearchBarTwitter () { 
   
     const [term, setTerm] = useState('');
-    const [search, setSearch] = useState('');
-    // const dispatch = useDispatch(); 
+    // const [search, setSearch] = useState(term);
+    const dispatch = useDispatch(); 
+    const history = useHistory();
     
     const classes = useStyles();
   
     const handleChange = (event) => {
       setTerm(event.target.value);
+      console.log('term '+ term)
     };
   
       return ( 
@@ -49,8 +52,9 @@ export default function SearchBarTwitter () {
             <NavBar/>
                 <div className={classes.root} >
                 <h4>Find Tweets by Subject</h4>
-                {/* TO DO : Link to search results  */}
+        
                     <OutlinedInput id="component-outlined 2" value={term} onChange={handleChange}/>
+                    <Link to={{ pathname: "/twitter/sentiment", state: {term: term}}}>>
 
                         <Button
                         variant="contained"
@@ -58,23 +62,15 @@ export default function SearchBarTwitter () {
                         className={classes.button}
                         size="large"
                         type = "submit"
-                        startIcon={<InputIcon>InputIcon</InputIcon>}
-                        component={Link} to="/twitter/sentiment">
+                        startIcon={<InputIcon>InputIcon</InputIcon>}>
+                        {/* component={Link} to="/twitter/sentiment"> */}
                         Predict Sentiment
                         </Button>
+                        </Link>
 
             </div>
             </div>
           );
     }
   
-    // {/* // function mapStateToProps(state) { */}
-    // {/* //     console.log(state.term)
-    
-    // //     return ({ */}
-    // {/* //     term : state.term
-    // //     })
-       
-    // //   }
-        
-    // // export default connect(mapStateToProps, null)(SearchBar); */}
+

@@ -61,8 +61,6 @@ const useStyles = makeStyles((theme) => ({
   
   const classes = useStyles();
   const inputValue = props.location.state.inputValue
-  console.log(props)
-  // console.log(context)
 
   const [expanded, setExpanded] = useState(false)
  

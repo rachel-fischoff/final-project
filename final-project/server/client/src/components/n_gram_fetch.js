@@ -1,20 +1,25 @@
 import React from 'react';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 export default function NGramResults(props) {
-    console.log(props)
+    // const [ngram, setNgram] = useState('')
+    
 
     useEffect (()=> {
-        fetch ('/text', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(props.inputValue)}).then(response => 
-            response.json().then(data=> {
+        fetch ('/text', {
+        method: 'POST', headers: {'Content-Type': 'application/json', 'Accept': 'application/json'}, 
+        body: JSON.stringify(props.inputValue)
+        })
+        .then(response => 
+            response.json()
+            .then(data=> {
                 console.log(data);
             }))
     }, [])
 
-
-     // could use an async / await funciton on click with a button? want to render the response 
+    //TODO - render response - color coordinated and based on polarity, subjectivity and ngrams --
 
     return (
         <div>
