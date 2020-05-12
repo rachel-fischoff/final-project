@@ -51,13 +51,16 @@ const useStyles = makeStyles((theme) => ({
   
   const classes = useStyles();
   const term = props.location.state.term
-  console.log(term + 'term')
 
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  
+
+
     return (
         <div className={classes.root}>
           <NavBar/>

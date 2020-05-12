@@ -3,6 +3,7 @@
 
 from flask import Flask, request, jsonify 
 from flask import Blueprint
+import json
 # import twitter 
 
 app = Flask(__name__)
@@ -14,7 +15,15 @@ def anaylze_text ():
     text_data = request.get_json()
     # response = fl.function(anaylze_text(text_data))
     print(text_data)
+
+    # write data to a file in the same directory as the jup notebook
+    # read the data back in the notebook 
+    # re - write the file 
+    with open ('text.txt', 'w') as outfile:
+        json.dump(text_data, outfile)
     return text_data
+    # make an analysis.py file in the same directory in the flask project 
+    
       
 # app.run(debug = True) 
 

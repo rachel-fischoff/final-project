@@ -6,8 +6,9 @@ from nltk.corpus import stopwords
 from nltk import FreqDist, classify, NaiveBayesClassifier
 from nltk.tokenize import word_tokenize
 from nltk.util import ngrams, bigrams, trigrams
-from app import anaylze_text
-import app 
+import json
+
+
 # import pymongo
 # import pandas as pd
 # from pymongo import MongoClient
@@ -139,16 +140,25 @@ test_data = dataset[7000:]
 #use the NaiveBayesClassifier to build a model 
 classifier = NaiveBayesClassifier.train(train_data)
 
-print("Accuracy is:", classify.accuracy(classifier, test_data))
+# print("Accuracy is:", classify.accuracy(classifier, test_data))
 
-print(classifier.show_most_informative_features(10))
+# print(classifier.show_most_informative_features(10))
 
 #how the model performs on random tweets
 
 # custom_tweet = "I ordered just once from TerribleCo, they screwed up, never used the app again."
 
-# how do i connect these two files ???
-custom_tweet = anaylze_text()
+with open ('text.txt', 'r') as infile:
+    text_data = infile.read()
+    print (infile.read())
+
+print(text_data)
+
+
+
+custom_tweet = text_data
+print(custom_tweet)
+
 
 custom_tokens = remove_noise(word_tokenize(custom_tweet))
 
