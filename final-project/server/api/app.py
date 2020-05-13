@@ -1,7 +1,7 @@
 # flask use to get input from the react 
 # analyze return both polarity / subjectivity score and ngrams 
 
-from flask import Flask, request, jsonify 
+from flask import Flask, request, jsonify, Response, Request 
 from flask import Blueprint
 import json
 # import twitter 
@@ -9,21 +9,31 @@ import json
 app = Flask(__name__)
 
 #defining a route 
-@app.route('/text', methods = ['GET','POST'])
+@app.route('/text', methods = ['POST'])
 #route handler function 
 def anaylze_text (): 
     text_data = request.get_json()
-    # response = fl.function(anaylze_text(text_data))
+
     print(text_data)
 
-    # write data to a file in the same directory as the jup notebook
-    # read the data back in the notebook 
-    # re - write the file 
+    #writes data to text file for sentiment analysis and NLP
     with open ('text.txt', 'w') as outfile:
         json.dump(text_data, outfile)
     return text_data
-    # make an analysis.py file in the same directory in the flask project 
+
+
+#defining the route
+@app.route('/text', methods = ['GET'])
+
+#route handler function 
+def return_sentiment ():
     
+  with open ('text.txt', 'r') as infile:
+    ngram_data = infile.read()
+    print (infile.read())
+    return jsonify(ngram_data)
+
+
       
 # app.run(debug = True) 
 

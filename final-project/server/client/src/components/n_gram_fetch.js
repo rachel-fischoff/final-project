@@ -4,7 +4,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 export default function NGramResults(props) {
-    // const [ngram, setNgram] = useState('')
+    const [ngram, setNgram] = useState('')
     
 
     useEffect (()=> {
@@ -14,8 +14,8 @@ export default function NGramResults(props) {
         })
         .then(response => 
             response.json()
-            .then(data=> {
-                console.log(data);
+            .then(setNgram=> {
+                console.log(setNgram);
             }))
     }, [])
 
@@ -24,7 +24,7 @@ export default function NGramResults(props) {
     return (
         <div>
         <CardContent>
-            <Typography paragraph color="textPrimary">{}</Typography>
+            <Typography paragraph color="textPrimary">{ngram}</Typography>
         </CardContent>
         </div>
     )

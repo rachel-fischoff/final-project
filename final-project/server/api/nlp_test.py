@@ -7,6 +7,7 @@ from nltk import FreqDist, classify, NaiveBayesClassifier
 from nltk.tokenize import word_tokenize
 from nltk.util import ngrams, bigrams, trigrams
 import json
+import pickle
 
 
 # import pymongo
@@ -167,10 +168,18 @@ print (unigrams)
 bi = bigrams(unigrams)
 print(list(bi))
 tri = trigrams(unigrams)
-print(list(tri))
+trilist = (list(tri))
+print(trilist)
+
+sentiment = classifier.classify(dict([token, True] for token in custom_tokens))
+print(sentiment)
 
 
-print(classifier.classify(dict([token, True] for token in custom_tokens)))
+#writes the ngrams to the text file
+with open ('text.txt', 'w') as outfile:
+    outfile.write(str(trilist))
+    outfile.write(str(sentiment))
+
 
 
 #train the model on people's reaction
