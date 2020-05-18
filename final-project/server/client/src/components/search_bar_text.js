@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import InputIcon from '@material-ui/icons/Input'
 import NavBar from './nav_bar'
+import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,7 +42,6 @@ export default function SearchBarText () {
 
   const handleInput = (event) => {
     setInputValue(event.target.value);
-    console.log('inputValue' + inputValue)
   }
 
     return ( 
@@ -58,9 +58,8 @@ export default function SearchBarText () {
                       size="large"
                       type = "submit"
                       startIcon={<InputIcon>InputIcon</InputIcon>}
-                      // onClick={updateText}
-                      // component={Link} to={"/texts/sentiment", {text}, console.log(text  + 'from txxt')}
-          
+                      // onClick=
+            
                       >
                        Predict Sentiment
                      </Button> 

@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 
 export default function NGramResults(props) {
     const [ngram, setNgram] = useState('')
+    const [sentiment, setSentiment] = useState('')
     
 
     useEffect (()=> {
@@ -13,11 +14,24 @@ export default function NGramResults(props) {
         body: JSON.stringify(props.inputValue)
         })
         .then(response => 
-            response.json()
-            .then(setNgram=> {
-                console.log(setNgram);
-            }))
+            response.text())
+            .then(data=> {
+                setNgram(data)
+                console.log(data);
+            })
     }, [])
+
+    useEffect (()=>{
+        fetch('/text', {method:'GET'}).
+        then(response => 
+            response.text()).
+            then(data=> {
+                setSentiment(data)
+                console.log(data)
+            })
+    }, [])
+
+
 
     //TODO - render response - color coordinated and based on polarity, subjectivity and ngrams --
 
@@ -25,6 +39,7 @@ export default function NGramResults(props) {
         <div>
         <CardContent>
             <Typography paragraph color="textPrimary">{ngram}</Typography>
+            <Typography paragraph color="textPrimary">{sentiment}</Typography>
         </CardContent>
         </div>
     )
