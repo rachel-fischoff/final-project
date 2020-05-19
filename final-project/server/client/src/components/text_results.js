@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
                   <Typography className={classes.typography} variant="body2" color="textPrimary" fontWeight="fontWeightBold"  variant="h6">
                     {inputValue}
                   </Typography>
-                  {/* {console.log(text + 'text')} */}
+                 
                 <Typography fontSize={10}>
                 <IconButton
                 className={clsx(classes.expand, {
@@ -92,11 +92,11 @@ const useStyles = makeStyles((theme) => ({
                 
                 </IconButton>
                 </Typography>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <Collapse in={expanded} timeout="auto" unmountOnExit>
                 {/* <NGram inputValue = {inputValue} /> */}
                 <NGramResults inputValue = {inputValue}/>
-            </Collapse>     
-            </Paper>
+              </Collapse>     
+              </Paper>
             </Box>
             </div>
       )

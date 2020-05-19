@@ -1,4 +1,5 @@
 import tensorflow as tf
+import tensorflow_text as text
 
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -76,8 +77,6 @@ num_epochs = 10
 model.fit(padded, training_labels_final, epochs=num_epochs, validation_data=(testing_padded, testing_labels_final))
 
 
-
-
 #save as keras .h5 model 
 t = time.time()
 
@@ -89,14 +88,40 @@ model.save(export_path_keras)
 
 # Use the model to predict a review  
 
+#open the text file 
 with open ('text.txt', 'r') as infile:
     text_analysis = [infile.read()] 
 
 print(text_analysis) 
 
+tokenizer = text.WhitespaceTokenizer()
+tokens = tokenizer.tokenize([text_analysis])
+
+# Ngrams, in this case bi-gram (n = 2)
+trigrams = text.ngrams(tokens, 3, reduction_type=text.Reduction.STRING_JOIN)
+ngrams_to_analyze = (trigrams.to_list())
+
+#writes the ngrams to the text file
+with open ('ngram.txt', 'w') as outfile:
+    outfile.write(str(ngrams_to_analyze))
+
+#open the text file 
+with open ('ngram.txt', 'r') as infile:
+    ngram_analysis = infile.read()
+
+
+#Tokenize the dataset
+#Tokenize the dataset, including padding and OOV
+vocab_size = 1000
+max_length = 100
+oov_tok = "<OOV>"
+
+tokenizer = Tokenizer(num_words = vocab_size, oov_token=oov_tok)
+
 # Create the sequences
 padding_type='post'
-sample_sequences = tokenizer.texts_to_sequences(text_analysis)
+sample_sequences = tokenizer.texts_to_sequences(ngram_analysis)
+print(sample_sequences)
 fakes_padded = pad_sequences(sample_sequences, padding=padding_type, maxlen=max_length)           
 
 print('\nHOT OFF THE PRESS! HERE ARE SOME NEWLY MINTED, ABSOLUTELY GENUINE REVIEWS!\n')              
@@ -104,7 +129,8 @@ print('\nHOT OFF THE PRESS! HERE ARE SOME NEWLY MINTED, ABSOLUTELY GENUINE REVIE
 classes = model.predict(fakes_padded)
 
 # The closer the class is to 1, the more positive the review is deemed to be
-for x in range(len(text_analysis)):
-  print(text_analysis[x])
+for x in range(len(ngram_analysis)):
+  print(ngram_analysis[x])
   print(classes[x])
   print('\n')
+
