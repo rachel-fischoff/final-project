@@ -40,11 +40,13 @@ export default function NGramResults(props) {
     }, [])
 
     useEffect (()=>{
-        fetch('/text', {
-            method:'GET', 
-            headers: {'Content-Type': 'application/json', 'Accept': 'application/json'} 
+        fetch('/ngrams', {
+            method:'GET',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            mode: 'cors'
         })
         .then(response => 
+            //response.text ? which is better?
             response.json())
             .then(data=> {
                 setSentiment(data)
@@ -55,14 +57,19 @@ export default function NGramResults(props) {
 
 
     //TODO color coordinated and based on polarity, subjectivity and ngrams --
+    // Look at the text hightlighter component for a way to map + implement color 
 
     return (
         <div>
         <CardContent className = {classes.root}>
-            <Typography className={classes.typography} color="textPrimary" fontWeight="fontWeightBold" variant="h6">{ngram}</Typography>
-            <Typography className={classes.typography} color="textPrimary" fontWeight="fontWeightBold"  variant="h6">{sentiment}</Typography>
+            {/* Need to get the colors to change  */}
+            <Typography className={classes.typography} color="textPrimary" fontWeight="fontWeightBold" variant="h6"><span style={{color: 'green'}}>{ngram}</span></Typography>
+            <Typography className={classes.typography} color="textPrimary" fontWeight="fontWeightBold" variant="h6"><span style={{color: 'red'}}>{sentiment}</span></Typography>
+            <Typography className={classes.typography} color="textPrimary" fontWeight="fontWeightBold" variant="h6"><span style={{color: 'yellow'}}>{sentiment}</span></Typography>
         </CardContent>
         </div>
     )
 
 }
+
+

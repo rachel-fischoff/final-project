@@ -7,7 +7,6 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 import numpy as np
 import pandas as pd
 import time
-import csv
 
 path = tf.keras.utils.get_file('reviews.csv', 
                                'https://drive.google.com/uc?id=13ySLC_ue6Umt9RJYSeM2t-V0kCv-4C-P')
@@ -78,13 +77,13 @@ num_epochs = 10
 model.fit(padded, training_labels_final, epochs=num_epochs, validation_data=(testing_padded, testing_labels_final))
 
 
-# #save as keras .h5 model 
-# t = time.time()
+#save as keras .h5 model 
+t = time.time()
 
-# export_path_keras = "./{}.h5".format(int(t))
-# print(export_path_keras)
+export_path_keras = "./{}.h5".format(int(t))
+print(export_path_keras)
 
-# model.save(export_path_keras)
+model.save(export_path_keras)
 
 
 # Use the model to predict a review  
@@ -101,65 +100,39 @@ tokens = tokenizer1.tokenize([text_analysis])
 # Ngrams, in this case bi-gram (n = 2)
 trigrams = text.ngrams(tokens, 3, reduction_type=text.Reduction.STRING_JOIN)
 ngrams_to_analyze = (trigrams.to_list())
-#prints ragged tensor 
-print(trigrams)
-#prints list 
 print(ngrams_to_analyze)
 
 #writes the ngrams to the text file
 with open ('ngram.txt', 'w') as outfile:
-    file_data = outfile.write(str(ngrams_to_analyze))
-    #prints 112 
-    print (file_data)
+    outfile.write(str(ngrams_to_analyze))
 
-#open the text file 
-with open ('ngram.txt', 'r') as infile:
-    ngram_analysis = infile.read()
-    print(ngram_analysis)
+# #open the text file 
+# with open ('ngram.txt', 'r') as infile:
+#     ngram_analysis = infile.read()
+#     print(ngram_analysis)
   
 
 #Tokenize the dataset
 #Tokenize the dataset, including padding and OOV
 vocab_size = 1000
-embedding_dim = 16
 max_length = 100
-trunc_type='post'
-padding_type='post'
 oov_tok = "<OOV>"
 
 tokenizer = Tokenizer(num_words = vocab_size, oov_token=oov_tok)
-tokenizer.fit_on_texts(ngram_analysis)
-word_index = tokenizer.word_index
 
-sample_sequences = tokenizer.texts_to_sequences(ngram_analysis)
+# Create the sequences
+padding_type='post'
+sample_sequences = tokenizer.texts_to_sequences(ngrams_to_analyze)
 print(sample_sequences)
-fakes_padded = pad_sequences(sample_sequences, padding=padding_type, maxlen=max_length, truncating=trunc_type)           
+fakes_padded = pad_sequences(sample_sequences, padding=padding_type, maxlen=max_length)           
 
 print('\nHOT OFF THE PRESS! HERE ARE SOME NEWLY MINTED, ABSOLUTELY GENUINE REVIEWS!\n')              
 
 classes = model.predict(fakes_padded)
 
 # The closer the class is to 1, the more positive the review is deemed to be
-for x in range(len(ngram_analysis)):  
-  print(ngram_analysis[x])
+for x in range(len(ngrams_to_analyze)):
+  print(ngrams_to_analyze[x])
   print(classes[x])
   print('\n')
 
-#map the function? remove punctionation? other ways to process?
-
-#write to csv file with columns ?? ngram_anaylsis on 1 & classes on 2. 
-# front end read - closer to 1 - positive
-#closer to O - negative
-#.4-.6 neutral 
-
-#write the classes + anaylsis for ngrams in csv or text to send to front end
-# with open ('ngram.csv', mode='w') as csv_file:
-#     ngram_writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-
-#     for x in range(len(ngram_analysis)):  
-#         ngram_writer.writerow([ngram_analysis[x]])
-#         ngram_writer.writerow(classes[x])
-    
-
-
-tf.strings.ngrams(["A", "B", "C", "D"], 3).numpy()

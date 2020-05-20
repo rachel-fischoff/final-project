@@ -13,6 +13,7 @@ import Box from '@material-ui/core/Box'
 import NavBar from './nav_bar'
 import Avatar from '@material-ui/core/Avatar'
 import CardHeader from '@material-ui/core/CardHeader'
+import NGramTwitterResults from './n_gram_twitter'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -70,11 +71,11 @@ const useStyles = makeStyles((theme) => ({
                 {/* {insert twitter status} */}
                 </Typography>
                
-                <Typography>
+                <Typography paragraph>
                
-                <Avatar aria-label="tweet" className={classes.large} src = "https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fblogs-images.forbes.com%2Fceliashatzman%2Ffiles%2F2017%2F09%2FRihanna-Headshot-1200x1800.jpg">
+                {/* <Avatar aria-label="tweet" className={classes.large} src = "https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fblogs-images.forbes.com%2Fceliashatzman%2Ffiles%2F2017%2F09%2FRihanna-Headshot-1200x1800.jpg">
                 </Avatar>
-              
+               */}
   
                 <IconButton
                 className={clsx(classes.expand, {
@@ -89,8 +90,7 @@ const useStyles = makeStyles((theme) => ({
                 </IconButton>
                 </Typography>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-                {/* <NGramTwitterResults/> */}
-                <NGram inputValue ={term}/>
+                <NGramTwitterResults term = {term}/>
             </Collapse>     
             </Paper>
             </Box>
