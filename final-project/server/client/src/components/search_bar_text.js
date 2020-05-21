@@ -35,10 +35,6 @@ export default function SearchBarText () {
   let history = useHistory();
 
   const [inputValue, setInputValue] = useState('')
-  // const [text, setText]= useState(inputValue)
-
-
-  // const selectedItem = useSelector( state => state.text)
 
   const handleInput = (event) => {
     setInputValue(event.target.value);

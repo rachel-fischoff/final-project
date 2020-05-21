@@ -1,15 +1,14 @@
-# flask use to get input from the react 
-# analyze return both polarity / subjectivity score and ngrams 
-
-from flask import Flask, request, jsonify, Response, Request, g 
-from flask import Blueprint
-import json
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+import json, csv
 import pandas as pd 
-# import twitter 
+
+# import twitter [to be added for when i implement the twitter functions]
 
 app = Flask(__name__)
+CORS(app)
 
-#defining a route 
+#defining the post route for the text submitted by the user 
 @app.route('/text', methods = ['POST'])
 
 #route handler function 
@@ -18,26 +17,33 @@ def anaylze_text ():
 
     print(text_data)
 
-    #writes data to text file for sentiment analysis and NLP
+    #writes data to text file for Natural Language Processing and sentiment analysis
     with open ('text.txt', 'w') as outfile:
         json.dump(text_data, outfile)
     return text_data
 
 
-#defining the route
+#defining the get route for the ngrams and each of their score 
 @app.route('/ngrams', methods = ['GET'])
 
 #route handler function 
 def return_ngrams ():
-  #todo get the function to print 
 
-    #open file with ngrams 
-    with open ('ngram.txt', 'r') as infile:
+    # #open file with ngrams 
+    # with open ('ngram.txt', 'r') as infile:
+    #     ngram_data = infile.read()
+       
+    #     print (ngram_data)
+    #     # return jsonify(ngram_data)
+    #     return jsonify({'ngram': ngram_data})
+
+
+        #open file with ngrams 
+    with open ('ngram.csv', 'r') as infile:
         ngram_data = infile.read()
         print (ngram_data)
-    # return jsonify(ngram = ngram_data)
-    return jsonify({'ngram': [ngram_data]})
-
+        # return jsonify(ngram_data)
+        return jsonify({'ngram': [ngram_data]})
 
 if __name__ == '__main__':
     app.run(debug = True, port=5000) 

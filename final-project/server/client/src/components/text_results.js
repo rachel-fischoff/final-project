@@ -108,7 +108,6 @@ const useStyles = makeStyles((theme) => ({
                 </IconButton>
                 </Typography>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
-                {/* <NGram inputValue = {inputValue} /> */}
                 <NGramResults inputValue = {inputValue}/>
               </Collapse>     
               </Paper>
