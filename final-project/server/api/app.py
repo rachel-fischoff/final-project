@@ -29,16 +29,14 @@ def anaylze_text ():
 
 #route handler function 
 def return_ngrams ():
-    # headers = {"Content-Type": "application/json"}
-
-    #todo get the function to print 
+  #todo get the function to print 
 
     #open file with ngrams 
     with open ('ngram.txt', 'r') as infile:
         ngram_data = infile.read()
         print (ngram_data)
     # return jsonify(ngram = ngram_data)
-    return jsonify(ngram = ngram_data)
+    return jsonify({'ngram': [ngram_data]})
 
 
 if __name__ == '__main__':

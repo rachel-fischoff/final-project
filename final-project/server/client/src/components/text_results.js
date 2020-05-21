@@ -63,10 +63,25 @@ const useStyles = makeStyles((theme) => ({
   const inputValue = props.location.state.inputValue
 
   const [expanded, setExpanded] = useState(false)
+  const [text, setText] = useState('')
  
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  useEffect (()=> {
+    fetch ('/text', {
+    method: 'POST', 
+    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'}, 
+    body: JSON.stringify(inputValue)
+    })
+    .then(response => 
+        response.text())
+        .then(data=> {
+            setText(data)
+            console.log(data);
+        })
+}, [text])
 
       return ( 
       
@@ -75,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
             <Box className={classes.box}>
             <Paper className={classes.paper} >
               {/* <TextHighlighter inputValue = {inputValue, console.log(inputValue, props)}  /> */}
-                  <Typography className={classes.typography} variant="body2" color="textPrimary" fontWeight="fontWeightBold"  variant="h6">
+                  <Typography variant="body2" color="textPrimary" fontWeight="fontWeightBold"  variant="h6">
                     {inputValue}
                   </Typography>
                  

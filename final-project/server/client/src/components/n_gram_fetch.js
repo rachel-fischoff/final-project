@@ -22,22 +22,8 @@ export default function NGramResults(props) {
     const [ngram, setNgram] = useState('')
     const [sentiment, setSentiment] = useState('')
     
-      
     const classes = useStyles();
 
-    useEffect (()=> {
-        fetch ('/text', {
-        method: 'POST', 
-        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'}, 
-        body: JSON.stringify(props.inputValue)
-        })
-        .then(response => 
-            response.text())
-            .then(data=> {
-                setNgram(data)
-                console.log(data);
-            })
-    }, [])
 
     useEffect (()=>{
         fetch('/ngrams', {
@@ -49,21 +35,25 @@ export default function NGramResults(props) {
             //response.text ? which is better?
             response.json())
             .then(data=> {
-                setSentiment(data)
-                console.log(data)
+                setNgram(data)
+                console.log(data, data.isArray)
+                // setSentiment(sentiment.data)
+                
             })
-    }, [])
+    }, [ngram])
 
 
+    // figure out how to map the state - map state to props in react hooks so i can then use it. 
 
     //TODO color coordinated and based on polarity, subjectivity and ngrams --
     // Look at the text hightlighter component for a way to map + implement color 
 
     return (
+    
         <div>
+           
         <CardContent className = {classes.root}>
-            {/* Need to get the colors to change  */}
-            <Typography className={classes.typography} color="textPrimary" fontWeight="fontWeightBold" variant="h6"><span style={{color: 'green'}}>{ngram}</span></Typography>
+            {/* <Typography color="textPrimary" fontWeight="fontWeightBold" variant="h6">{ngram.map(element => <span style={{color: 'green'}}>{element}</span>)}</Typography> */}
             <Typography className={classes.typography} color="textPrimary" fontWeight="fontWeightBold" variant="h6"><span style={{color: 'red'}}>{sentiment}</span></Typography>
             <Typography className={classes.typography} color="textPrimary" fontWeight="fontWeightBold" variant="h6"><span style={{color: 'yellow'}}>{sentiment}</span></Typography>
         </CardContent>

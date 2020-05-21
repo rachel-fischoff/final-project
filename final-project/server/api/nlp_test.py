@@ -156,14 +156,7 @@ with open ('text.txt', 'r') as infile:
 print(text_data)
 
 
-
-custom_tweet = text_data
-print(custom_tweet)
-
-
-custom_tokens = remove_noise(word_tokenize(custom_tweet))
-
-unigrams = custom_tweet.split()
+unigrams = text_data.split()
 print (unigrams) 
 bi = bigrams(unigrams)
 print(list(bi))
@@ -171,14 +164,21 @@ tri = trigrams(unigrams)
 trilist = (list(tri))
 print(trilist)
 
+# #writes the ngrams to the text file
+# with open ('ngram.txt', 'w') as outfile:
+#     outfile.writelines(str(trilist))
+
+custom_tokens = remove_noise(word_tokenize(str(trilist)))
+
+
 sentiment = classifier.classify(dict([token, True] for token in custom_tokens))
 print(sentiment)
 
 
 #writes the ngrams to the text file
-with open ('text.txt', 'w') as outfile:
-    outfile.write(str(trilist))
-    outfile.write(str(sentiment))
+with open ('ngram.txt', 'w') as outfile:
+    outfile.writelines(str(trilist))
+    outfile.writelines(str(sentiment))
 
 
 
