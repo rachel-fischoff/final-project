@@ -23,6 +23,8 @@ export default function NGramResults(props) {
 
     //to make empty arrays or strings ???
     const [dataset, setDataset] = useState({})
+    // const [ngrams, setNgrams] = useState('')
+    // const [score, setScore] = useState('')
     
     const classes = useStyles();
 
@@ -31,6 +33,8 @@ export default function NGramResults(props) {
         const res = await axios.get('http://localhost:5000/ngrams');
         console.log(res.data);
         setDataset(res.data);
+        // setNgrams (res.data.ngram.map(element=>element))
+        // setScore (res.data.score.map(element=>element))
     }
 
     useEffect(() => {
@@ -59,24 +63,23 @@ export default function NGramResults(props) {
     // }, [])
 
 
-    // figure out how to map the state - map state to props in react hooks so i can then use it. 
+    // const matchScoresToNgrams = ()
 
-    //TODO color coordinated and based on polarity, subjectivity and ngrams --
+
     // Look at the text hightlighter component for a way to map + implement color 
 
     const renderNgrams = Object.values(dataset).map((element, index) => {
-        const result = element[0].split(',')
+        
 
+        console.log(dataset)
         //TODO -- loop through the result + join the two nearest to each other into an array with two values (string/number) 
         //then map out the strings by color according to their number  
         return <div key = {index}>
                <CardContent className = {classes.root}>
-    <Typography color="textPrimary" fontWeight="fontWeightBold" variant="h6">{result.map((item, index) => <span key={index} style={{color: 'green'}}>{item}</span>)} </Typography>
+                <Typography color="textPrimary" fontWeight="fontWeightBold" variant="h6">{<span key={index} style={{color: 'green'}}>{element}</span> }</Typography>
                 <Typography className={classes.typography} color="textPrimary" fontWeight="fontWeightBold" variant="h6"><span style={{color: 'red'}}>{dataset.ngram}</span></Typography>
-                <Typography color="textPrimary" fontWeight="fontWeightBold" variant="h6"><span style={{color: 'yellow'}}>{result}</span></Typography>
-                <NGramSentiment dataset={dataset} />
+                <Typography color="textPrimary" fontWeight="fontWeightBold" variant="h6"><span style={{color: 'yellow'}}>{dataset.score}</span></Typography>
             </CardContent>
-            {console.log(result)}
         </div>
     })
 

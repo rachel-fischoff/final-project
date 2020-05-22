@@ -1,1 +1,1 @@
-['am excited to', array([0.58444786], dtype=float32), 'excited to finish', array([0.48108035], dtype=float32), 'finish my final', array([0.3983669], dtype=float32), 'my final project', array([0.27763838], dtype=float32), 'to finish my', array([0.23725666], dtype=float32)]
+['celebrate samantha birthday', array([0.23725666], dtype=float32), 'let celebrate samantha', array([0.48108035], dtype=float32)]

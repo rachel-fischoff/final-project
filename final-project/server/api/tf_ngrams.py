@@ -48,34 +48,23 @@ print('\nHOT OFF THE PRESS! HERE ARE SOME NEWLY MINTED, ABSOLUTELY GENUINE REVIE
 
 classes = my_model.predict(sample_ngram)
 
-#creates an empty array for the data
-data = []
-#loops through the ngrams and creates a score for the sentiment of each 
-for x in range(len(ngrams)):
-    data.append(ngrams[x])
-    data.append(classes[x])
-    print(data)
-
 # front end read - closer to 1 - positive
 #closer to O - negative
 #.4-.6 neutral 
 
 #write the classes + anaylsis for ngrams in csv or text to send to front end
-with open ('ngram.csv', mode='w') as csv_file:
-    ngram_writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-    ngram_writer.writerow(data)
+with open ('ngram.csv', mode='w', newline='') as csv_file:
+    fieldnames = ['ngram', 'score']
+    ngram_writer = csv.DictWriter(csv_file, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL, fieldnames=fieldnames)
+    ngram_writer.writeheader()
 
 
-#writes the ngrams to the text file
-with open ('ngram.txt', 'w') as outfile:
-    outfile.write(str(data))
+    for x in range(len(ngrams)):
+    
+        ngram_writer.writerow({'ngram': ngrams[x], 'score': float(classes[x])})
 
 
 
-    # for x in range(len(ngrams)):  
-    #     ngram_writer.writerow([ngrams[x]])
-    #     ngram_writer.writerow(classes[x])
-
-
+        
 
 

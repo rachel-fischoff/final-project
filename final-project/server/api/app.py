@@ -28,22 +28,13 @@ def anaylze_text ():
 
 #route handler function 
 def return_ngrams ():
-
-    # #open file with ngrams 
-    # with open ('ngram.txt', 'r') as infile:
-    #     ngram_data = infile.read()
-       
-    #     print (ngram_data)
-    #     # return jsonify(ngram_data)
-    #     return jsonify({'ngram': ngram_data})
+    #use pandas to read the csv
+    df = pd.read_csv('ngram.csv')
+    dict = df.to_dict(orient='list')
+    print(dict)
+    return jsonify(dict)
 
 
-        #open file with ngrams 
-    with open ('ngram.csv', 'r') as infile:
-        ngram_data = infile.read()
-        print (ngram_data)
-        # return jsonify(ngram_data)
-        return jsonify({'ngram': [ngram_data]})
 
 if __name__ == '__main__':
     app.run(debug = True, port=5000) 
