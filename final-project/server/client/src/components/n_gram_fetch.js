@@ -3,7 +3,6 @@ import {useEffect, useState} from 'react';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import NGramSentiment from './ngram_sentiment'
 import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
@@ -33,55 +32,48 @@ export default function NGramResults(props) {
         const res = await axios.get('http://localhost:5000/ngrams');
         console.log(res.data);
         setDataset(res.data);
-        // setNgrams (res.data.ngram.map(element=>element))
-        // setScore (res.data.score.map(element=>element))
     }
 
     useEffect(() => {
         fetchData();
     }, []);
 
-    
-    // // fetches the ngram data and sentiment scores
-    // useEffect (()=>{
-       
-    //     fetch('/ngrams', {
-    //         method:'GET',
-    //         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-    //         mode: 'cors'
-    //     })
-    //     .then(response => 
-    //         //response.text ? which is better?
-    //         response.json())
-    //         .then(data=> {
-    //             //sets the dataset to be the ngram_data from the backend
-    //             setDataset(data.ngram)
-    //             console.log(data)
-     
-    //         })
-    //         setTimeout(()=> {console.log('is the timer working?')}, 3000)
-    // }, [])
-
-
-    // const matchScoresToNgrams = ()
-
+    // need to loop through data set and match the indexes of ngrams to scores so 
 
     // Look at the text hightlighter component for a way to map + implement color 
+    // if score = (0-.3) = negative, if score = (.3-.5 = neutral) and if (.51 or greater = positive)
 
     const renderNgrams = Object.values(dataset).map((element, index) => {
-        
 
-        console.log(dataset)
-        //TODO -- loop through the result + join the two nearest to each other into an array with two values (string/number) 
-        //then map out the strings by color according to their number  
-        return <div key = {index}>
-               <CardContent className = {classes.root}>
-                <Typography color="textPrimary" fontWeight="fontWeightBold" variant="h6">{<span key={index} style={{color: 'green'}}>{element}</span> }</Typography>
-                <Typography className={classes.typography} color="textPrimary" fontWeight="fontWeightBold" variant="h6"><span style={{color: 'red'}}>{dataset.ngram}</span></Typography>
-                <Typography color="textPrimary" fontWeight="fontWeightBold" variant="h6"><span style={{color: 'yellow'}}>{dataset.score}</span></Typography>
+        const combinedArray = dataset.ngram.map(function(item, index) {
+            return [item, dataset.score[index]];
+            })
+            console.log(combinedArray)
+        
+         const posNgrams = []
+         const negNgrams = []
+         const neuNgrams = []
+
+        combinedArray.map((element, index) => {
+            if(combinedArray[index][1] > .51) 
+            posNgrams.push(element)
+            if (combinedArray[index][1] < .3)
+            negNgrams.push(element)
+            if(combinedArray[index][1] > .3 > .51)
+            neuNgrams.push (element)
+        })
+          return (
+          <div>
+            <CardContent>
+          <Typography paragraph>  
+          {posNgrams.map(element => <span key={element[1]} style={{color: 'green'}}>{element[0]}</span>)}
+          {negNgrams.map(element => <span key={element[1]} style={{color: 'red'}}>{element[0]}</span>)}
+          {neuNgrams.map(element => <span key={element[1]} style={{color: 'yellow'}}>{element[0]}</span>)}
+          </Typography>
             </CardContent>
-        </div>
-    })
+          </div>
+          )
+        })
 
 
     return (
@@ -92,5 +84,3 @@ export default function NGramResults(props) {
     )
 
 }
-
-

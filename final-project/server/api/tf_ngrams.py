@@ -58,7 +58,6 @@ with open ('ngram.csv', mode='w', newline='') as csv_file:
     ngram_writer = csv.DictWriter(csv_file, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL, fieldnames=fieldnames)
     ngram_writer.writeheader()
 
-
     for x in range(len(ngrams)):
     
         ngram_writer.writerow({'ngram': ngrams[x], 'score': float(classes[x])})
