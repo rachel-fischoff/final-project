@@ -1,1 +1,1 @@
-"My machine learning model is bad. "
+"I am thinking of displaying the words and ngrams as chips. "
