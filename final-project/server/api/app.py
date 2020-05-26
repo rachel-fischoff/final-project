@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import json, csv
 import pandas as pd 
+from api.tf_ngrams import run_ngrams
 
 # import twitter [to be added for when i implement the twitter functions]
 
@@ -28,12 +29,17 @@ def anaylze_text ():
 
 #route handler function 
 def return_ngrams ():
+
+    run_ngrams()
     #use pandas to read the csv
     df = pd.read_csv('ngram.csv')
-    dict = df.to_dict(orient='list')
-    print(dict)
-    return jsonify(dict)
-
+    dict1 = df.to_dict(orient='list')
+    print(dict1)
+    df2 = pd.read_csv('sentence.csv')
+    dict2 = df2.to_dict(orient='list')
+    print(dict2)
+    return jsonify(dict1, dict2)
+    
 
 
 if __name__ == '__main__':
