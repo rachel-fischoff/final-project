@@ -7,6 +7,8 @@ import axios from 'axios'
 import Chip from '@material-ui/core/Chip';
 
 
+
+
 const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
@@ -59,17 +61,20 @@ const renderNgramChips = Object.values(dataset).map((element, index) => {
     combinedArray.map((element, index) => {
         if(combinedArray[index][1] > .51) 
         posNgrams.push(element)
-        if (combinedArray[index][1] < .3)
+        else if (combinedArray[index][1] < .3)
         negNgrams.push(element)
-        if(combinedArray[index][1] > .3 > .51)
+        else (
+        // ( .51 > combinedArray[index][1] > .3 )
         neuNgrams.push (element)
+        )
+           
     })
+
+    console.log(neuNgrams)
       return (
       <div key={index} >
 
         <CardContent>
-
-                   
     
                {posNgrams.map(element =>
                <Chip
@@ -77,7 +82,8 @@ const renderNgramChips = Object.values(dataset).map((element, index) => {
                clickable
                color = "primary"
                key={element[1]}
-               /> )} 
+               /> 
+               )}
 
                <br/>
                {negNgrams.map(element =>
@@ -107,9 +113,7 @@ const renderNgrams = Object.values(dataset).map((element, index) => {
         const combinedArray = dataset.ngram.map(function(item, index) {
             return [item, dataset.score[index]];
             })
-            console.log(combinedArray)
-
-
+ 
          const posNgrams = []
          const negNgrams = []
          const neuNgrams = []
@@ -119,8 +123,10 @@ const renderNgrams = Object.values(dataset).map((element, index) => {
             posNgrams.push(element)
             if (combinedArray[index][1] < .3)
             negNgrams.push(element)
-            if(combinedArray[index][1] > .3 > .51)
+            if( .51 > combinedArray[index][1] > .3 )
             neuNgrams.push (element)
+
+         
         })
           return (
           <div key={index} >
@@ -140,7 +146,7 @@ const renderNgrams = Object.values(dataset).map((element, index) => {
         const combinedArray = words.score.map(function(item, index) {
             return [item, words.word[index]];
                 })
-            console.log(combinedArray)
+
 
             const posWords = []
             const negWords = []
@@ -151,7 +157,7 @@ const renderNgrams = Object.values(dataset).map((element, index) => {
                posWords.push(element)
                if (combinedArray[index][0] < .3)
                negWords.push(element)
-               if(combinedArray[index][0] > .3 > .51)
+               if( .51 > combinedArray[index][0] > .3 )
                neuWords.push (element)
            })
              return (
@@ -185,17 +191,19 @@ const renderNgrams = Object.values(dataset).map((element, index) => {
                combinedArray.map((element, index) => {
                    if(combinedArray[index][0] > .51) 
                    posWords.push(element)
-                   if (combinedArray[index][0] < .3)
+                   else if (combinedArray[index][0] < .3)
                    negWords.push(element)
-                   if(combinedArray[index][0] > .3 > .51)
+                   else( 
                    neuWords.push (element)
+                   )
+
                })
                  return (
                  <div key={index}>
     
                    <CardContent>
                
-                   
+                  
     
                        {posWords.map(element =>
                        <Chip
@@ -228,8 +236,6 @@ const renderNgrams = Object.values(dataset).map((element, index) => {
                  </div>
                  )
                })
-
-
 
 
 
