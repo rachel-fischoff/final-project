@@ -33,15 +33,19 @@ def return_ngrams ():
     run_ngrams()
     #use pandas to read the csv
     df = pd.read_csv('ngram.csv')
-    dict1 = df.to_dict(orient='list')
-    print(dict1)
-    return jsonify(dict1)
+    df['totalwords'] = [len(x.split()) for x in df['ngram'].tolist()]
+    dict = df.to_dict(orient='list')
+    print(dict)
+    return jsonify(dict)
     
 
 
 if __name__ == '__main__':
     app.run(debug = True, port=5000) 
 
+
+
+# TO DO add the twitter api component 
 # api = twitter.Api(consumer_key=[consumer key],
 #                   consumer_secret=[consumer secret],
 #                   access_token_key=[access token],

@@ -1,1 +1,1 @@
-"Rachel is cool. The weather is warm. "
+{"text": "I am trying to add a new column to my csv with total word count so I can separate by word count. "}

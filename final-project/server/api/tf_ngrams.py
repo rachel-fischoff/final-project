@@ -7,6 +7,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 import numpy as np
 import pandas as pd
+from collections import Counter
 import csv, json 
 
 from sklearn.feature_extraction.text import CountVectorizer
@@ -20,19 +21,11 @@ def run_ngrams():
         text_analysis = [infile.read()] 
 
     #Use scikit learn to create the ngrams 
-    vectorizer = CountVectorizer(analyzer='word', ngram_range=(1, 3))
+    vectorizer = CountVectorizer(analyzer='word', ngram_range=(1, 3), token_pattern=r'\b\w+\b', min_df=1)
     X = vectorizer.fit_transform(text_analysis)
     ngrams = vectorizer.get_feature_names()
     print(ngrams, 'ngrams')
     print(X.toarray(), 'x to array')
-
-    # vectorizer2 = CountVectorizer()
-    # X2 = vectorizer2.fit_transform(text_analysis)
-    # analyze = vectorizer.build_analyzer()
-    # words = analyze(text_analysis)
-    # # words = vectorizer2.get_feature_names()
-    # print(words, 'words')
-    # print(X2.toarray(), 'x to array')
 
     #Tokenize the dataset, including padding and OOV
     vocab_size = 1500
@@ -44,28 +37,23 @@ def run_ngrams():
 
     tokenizer = Tokenizer(num_words = vocab_size, oov_token=oov_tok)
     tokenizer.fit_on_texts(ngrams)
-    # tokenizer.fit_on_texts(words)
 
     # Examine the word index
     word_index = tokenizer.word_index
     print(word_index, 'word index')
 
     ngrams_sequences = tokenizer.texts_to_sequences(ngrams)
-    # sentence_sequences = tokenizer.texts_to_sequences(words)
-    # print(sentence_sequences, 'sentence - sequences')
     print(ngrams_sequences, 'ngram - sequences')
 
     sequenced_ngrams = pad_sequences(ngrams_sequences, padding=padding_type, maxlen=max_length, truncating=trunc_type)                    
-    # sequenced_sentence = pad_sequences(sentence_sequences, padding=padding_type, maxlen=max_length, truncating=trunc_type) 
-
+   
     classes = my_model.predict(sequenced_ngrams)
-    # predicted_words = my_model.predict(sequenced_sentence)
-    # print (predicted_words)
+
 
     #write the classes + anaylsis for ngrams in csv or text to send to front end
     with open ('ngram.csv', mode='w', newline='') as csv_file:
         fieldnames = ['ngram', 'score']
-        ngram_writer = csv.DictWriter(csv_file, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL, fieldnames=fieldnames)
+        ngram_writer = csv.DictWriter(csv_file, delimiter=',', fieldnames=fieldnames)
         ngram_writer.writeheader()
 
         for x in range(len(ngrams)):
@@ -74,17 +62,14 @@ def run_ngrams():
 
             #returns a csv that is alphabetized  
 
-        
-    # with open ('sentence.csv', mode='w', newline='') as csv_file:
-    #     fieldnames = ['word', 'score']
-    #     writer = csv.DictWriter(csv_file, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL, fieldnames=fieldnames)
-    #     writer.writeheader()
+    #so i have this text file and i have this csv file that has every word from the text file 
+    # and a score attached to it 
+    # i'm trying to separate the text anaylsis by word and then find the score associated on the 
+    #word -- send it back with a score to be displayed 
 
-    #     for x in range(len(words)):
+        # print (text_analysis, 'text should be the original text ? maybe un array form')
 
-    #         writer.writerow({'word': words[x], 'score': float(predicted_words[x])})
-
-
+    
 if __name__ == "__main__":
    run_ngrams()
 
