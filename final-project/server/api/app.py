@@ -35,10 +35,10 @@ def return_ngrams ():
     df = pd.read_csv('ngram.csv')
     dict1 = df.to_dict(orient='list')
     print(dict1)
-    df2 = pd.read_csv('sentence.csv')
-    dict2 = df2.to_dict(orient='list')
-    print(dict2)
-    return jsonify(dict1, dict2)
+    # df2 = pd.read_csv('sentence.csv')
+    # dict2 = df2.to_dict(orient='list')
+    # print(dict2)
+    return jsonify(dict1)
     
 
 

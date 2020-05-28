@@ -72,6 +72,8 @@ def run_ngrams():
         
             ngram_writer.writerow({'ngram': ngrams[x], 'score': float(classes[x])})
 
+            #returns a csv that is alphabetized  
+
         
     # with open ('sentence.csv', mode='w', newline='') as csv_file:
     #     fieldnames = ['word', 'score']

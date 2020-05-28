@@ -5,20 +5,38 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios'
 import Chip from '@material-ui/core/Chip';
+import Divider from '@material-ui/core/Divider'
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 
 
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      display: 'flex',
-      justifyContent: 'center',
-      flexWrap: 'wrap',
-      '& > *': {
+  
+        display: 'flex',
+        '& > *': {
+          margin: theme.spacing(0.5),
+        },
+      
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: theme.palette.background.paper,
+      },
+      chip: {
         margin: theme.spacing(0.5),
       },
-    },
-  }));
+      list: {
+        // maxWidth: 360,
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }
+    }
+  ));
   
 export default function NGramResults(props) {
 
@@ -46,7 +64,9 @@ export default function NGramResults(props) {
     // if score = (0-.3) = negative, if score = (.3-.5 = neutral) and if (.51 or greater = positive)
 
     
-const renderNgramChips = Object.values(dataset).map((element, index) => {
+const renderNgramChips = Object.values(dataset).map ((element, index) => {
+// Object.values(dataset).filter( (element, index, arr) 
+
 
     const combinedArray = dataset.ngram.map(function(item, index) {
         return [item, dataset.score[index]];
@@ -59,9 +79,9 @@ const renderNgramChips = Object.values(dataset).map((element, index) => {
      const neuNgrams = []
 
     combinedArray.map((element, index) => {
-        if(combinedArray[index][1] > .51) 
+        if(combinedArray[index][1] > .3) 
         posNgrams.push(element)
-        else if (combinedArray[index][1] < .3)
+        else if (combinedArray[index][1] < .1)
         negNgrams.push(element)
         else (
         // ( .51 > combinedArray[index][1] > .3 )
@@ -70,173 +90,53 @@ const renderNgramChips = Object.values(dataset).map((element, index) => {
            
     })
 
-    console.log(neuNgrams)
       return (
-      <div key={index} >
+      <div key = {index} className = {classes.root}>
 
         <CardContent>
-    
+          <List className = {classes.list}>
+            <ListItem>
                {posNgrams.map(element =>
                <Chip
+               className ={classes.chip}
                label = {element[0]}
                clickable
                color = "primary"
                key={element[1]}
                /> 
+             
                )}
+              </ListItem>
+              <Divider  component="li"/>
 
-               <br/>
-               {negNgrams.map(element =>
+              <ListItem>
+               {neuNgrams.map(element => 
                <Chip
-               label = {element[0]}
-               clickable
-               color = "secondary"
-               key={element[1]}
-               /> )}
-
-                <br/>
-                {neuNgrams.map(element => 
-               <Chip
+               className ={classes.chip}
                label = {element[0]}
                clickable
                key={element[1]}
             
                /> )}
-                <br/>
+            </ListItem>
+                <Divider  component="li"/>
+                <ListItem>
+               {negNgrams.map(element =>
+               <Chip
+               className ={classes.chip}
+               label = {element[0]}
+               clickable
+               color = "secondary"
+               key={element[1]}
+               /> )}
+              </ListItem>
 
+            <Divider  component="li"/>
+          </List>
         </CardContent>
       </div>
       )
     })
-const renderNgrams = Object.values(dataset).map((element, index) => {
-
-        const combinedArray = dataset.ngram.map(function(item, index) {
-            return [item, dataset.score[index]];
-            })
- 
-         const posNgrams = []
-         const negNgrams = []
-         const neuNgrams = []
-
-        combinedArray.map((element, index) => {
-            if(combinedArray[index][1] > .51) 
-            posNgrams.push(element)
-            if (combinedArray[index][1] < .3)
-            negNgrams.push(element)
-            if( .51 > combinedArray[index][1] > .3 )
-            neuNgrams.push (element)
-
-         
-        })
-          return (
-          <div key={index} >
-            <CardContent>
-
-            <Typography paragraph>  
-                {posNgrams.map(element => <span key={element[1]} style={{color: 'green'}}>{element[0]}</span>)}
-                {negNgrams.map(element => <span key={element[1]} style={{color: 'red'}}>{element[0]}</span>)}
-                {neuNgrams.map(element => <span key={element[1]} style={{color: 'yellow'}}>{element[0]}</span>)}
-            </Typography>
-            </CardContent>
-          </div>
-          )
-        })
-
-    const renderWords = Object.values(words).map((element, index) => {
-        const combinedArray = words.score.map(function(item, index) {
-            return [item, words.word[index]];
-                })
-
-
-            const posWords = []
-            const negWords = []
-            const neuWords = []
-   
-           combinedArray.map((element, index) => {
-               if(combinedArray[index][0] > .51) 
-               posWords.push(element)
-               if (combinedArray[index][0] < .3)
-               negWords.push(element)
-               if( .51 > combinedArray[index][0] > .3 )
-               neuWords.push (element)
-           })
-             return (
-             <div key={index}>
-
-               <CardContent>
-           
-               <Typography paragraph>  
-
-                   {posWords.map(element => <span key={element[0]} style={{color: 'green'}}>{element[1]}</span>)}
-                   {negWords.map(element => <span key={element[0]} style={{color: 'red'}}>{element[1]}</span>)}
-                   {neuWords.map(element => <span key={element[0]} style={{color: 'yellow'}}>{element[1]}</span>)}
-               </Typography>
-               </CardContent>
-             </div>
-             )
-           })
-
-
-
-           const renderChips = Object.values(words).map((element, index) => {
-            const combinedArray = words.score.map(function(item, index) {
-                return [item, words.word[index]];
-                    })
-                console.log(combinedArray)
-    
-                const posWords = []
-                const negWords = []
-                const neuWords = []
-       
-               combinedArray.map((element, index) => {
-                   if(combinedArray[index][0] > .51) 
-                   posWords.push(element)
-                   else if (combinedArray[index][0] < .3)
-                   negWords.push(element)
-                   else( 
-                   neuWords.push (element)
-                   )
-
-               })
-                 return (
-                 <div key={index}>
-    
-                   <CardContent>
-               
-                  
-    
-                       {posWords.map(element =>
-                       <Chip
-                       label = {element[1]}
-                       clickable
-                       color = "primary"
-                       key={element[0]}
-                       /> )} 
-
-                       <br/>
-                       {negWords.map(element =>
-                       <Chip
-                       label = {element[1]}
-                       clickable
-                       color = "secondary"
-                       key={element[0]}
-                       /> )}
-
-                        <br/>
-                        {neuWords.map(element => 
-                       <Chip
-                       label = {element[1]}
-                       clickable
-                       key={element[0]}
-                    
-                       /> )}
-                        <br/>
-
-                   </CardContent>
-                 </div>
-                 )
-               })
-
 
 
 
@@ -244,9 +144,7 @@ const renderNgrams = Object.values(dataset).map((element, index) => {
     
         <div>
             {renderNgramChips}
-            {/* {renderNgrams} */}
-            {/* {renderWords} */}
-            {renderChips}
+
         </div>
     )
 
