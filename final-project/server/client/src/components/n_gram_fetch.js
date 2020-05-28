@@ -15,29 +15,38 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 
 
 const useStyles = makeStyles((theme) => ({
+
+  overrides: {
+    MuiListItem: {
+      root: {
+        textAlign: 'center',
+        alignItems: 'center',
+      },
+    }
+  },
     root: {
-  
+      textAlign: 'center',
         display: 'flex',
         '& > *': {
           margin: theme.spacing(0.5),
         },
-      
-        alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: theme.palette.background.paper,
       },
       chip: {
         margin: theme.spacing(0.5),
+
       },
       list: {
-        // maxWidth: 360,
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }
+        display: 'block',
+        alignItem: 'center',
+        textAlign: 'center',
+    
+      },
     }
   ));
   
+
 export default function NGramResults(props) {
 
 
@@ -50,7 +59,7 @@ export default function NGramResults(props) {
         const res = await axios.get('http://localhost:5000/ngrams');
         console.log(res.data[0], res.data[1]);
         setDataset(res.data[0]);
-        setWords (res.data[1]);
+        // setWords (res.data[1]);
         
     }
 
@@ -94,8 +103,8 @@ const renderNgramChips = Object.values(dataset).map ((element, index) => {
       <div key = {index} className = {classes.root}>
 
         <CardContent>
-          <List className = {classes.list}>
-            <ListItem>
+          <List >
+            <ListItem className = {classes.list}>
                {posNgrams.map(element =>
                <Chip
                className ={classes.chip}
@@ -109,7 +118,7 @@ const renderNgramChips = Object.values(dataset).map ((element, index) => {
               </ListItem>
               <Divider  component="li"/>
 
-              <ListItem>
+              <ListItem className = {classes.list}>
                {neuNgrams.map(element => 
                <Chip
                className ={classes.chip}
@@ -120,7 +129,7 @@ const renderNgramChips = Object.values(dataset).map ((element, index) => {
                /> )}
             </ListItem>
                 <Divider  component="li"/>
-                <ListItem>
+                <ListItem className = {classes.list}>
                {negNgrams.map(element =>
                <Chip
                className ={classes.chip}
