@@ -40,6 +40,17 @@ export default function SearchBarText () {
     setInputValue(event.target.value);
   }
 
+const fetchData = async () => {
+  const response = await axios.post('http://localhost:5000/text', {
+    // is there a better way to send this? 
+    text: inputValue
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+ 
+}
+
     return ( 
           <div>
               <NavBar/>
@@ -54,8 +65,8 @@ export default function SearchBarText () {
                       size="large"
                       type = "submit"
                       startIcon={<InputIcon>InputIcon</InputIcon>}
-                      // onClick=
-            
+                      onClick={fetchData}
+      
                       >
                        Predict Sentiment
                      </Button> 

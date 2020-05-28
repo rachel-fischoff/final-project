@@ -49,16 +49,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NGramResults(props) {
 
-
     const [dataset, setDataset] = useState({})
-    const [words, setWords] = useState({})
 
     const classes = useStyles ();
     
     const fetchData = async () => {
         const res = await axios.get('http://localhost:5000/ngrams');
-        console.log(res.data[0], res.data[1]);
-        setDataset(res.data[0]);
+        console.log(res.data);
+        setDataset(res.data);
         // setWords (res.data[1]);
         
     }

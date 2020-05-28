@@ -7,11 +7,11 @@ import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import NGram from './n_gram';
 import Box from '@material-ui/core/Box'
-// import TextHighlighter from './text-highlighter'
 import NavBar from './nav_bar'
 import NGramResults from './n_gram_fetch'
+import axios from 'axios'
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -51,9 +51,6 @@ const useStyles = makeStyles((theme) => ({
           marginRight: theme.spacing(1),
           width: '25ch',
         },
-        typography: {
-          color: 'green'
-        },
   }));
 
 
@@ -63,25 +60,10 @@ const useStyles = makeStyles((theme) => ({
   const inputValue = props.location.state.inputValue
 
   const [expanded, setExpanded] = useState(false)
-  const [text, setText] = useState('')
  
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
-  useEffect (()=> {
-    fetch ('/text', {
-    method: 'POST', 
-    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'}, 
-    body: JSON.stringify(inputValue)
-    })
-    .then(response => 
-        response.text())
-        .then(data=> {
-            setText(data)
-            console.log(data);
-        })
-}, [text])
 
       return ( 
       
@@ -89,9 +71,13 @@ const useStyles = makeStyles((theme) => ({
           <NavBar/>
             <Box className={classes.box}>
             <Paper className={classes.paper} >
-              {/* <TextHighlighter inputValue = {inputValue, console.log(inputValue, props)}  /> */}
+         
                   <Typography variant="body2" color="textPrimary" fontWeight="fontWeightBold"  variant="h6">
+                    
                     {inputValue}
+                    <br/>
+
+                    display the color coded sentence
                   </Typography>
                  
                 <Typography fontSize={10}>
