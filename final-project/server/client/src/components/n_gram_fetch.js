@@ -55,7 +55,9 @@ export default function NGramResults(props) {
     
     const fetchData = async () => {
         const res = await axios.get('http://localhost:5000/ngrams');
+        // it loops three times 
         console.log(res.data);
+
         setDataset(res.data);
         // setWords (res.data[1]);
         
@@ -72,23 +74,19 @@ export default function NGramResults(props) {
 
     
 const renderNgramChips = Object.values(dataset).map ((element, index) => {
-// Object.values(dataset).filter( (element, index, arr) 
-
 
     const combinedArray = dataset.ngram.map(function(item, index) {
-        return [item, dataset.score[index]];
+        return [item, dataset.score[index], dataset.totalwords[index]];
         })
-        console.log(combinedArray)
-
-
+    
      const posNgrams = []
      const negNgrams = []
      const neuNgrams = []
 
     combinedArray.map((element, index) => {
-        if(combinedArray[index][1] > .3) 
+        if(combinedArray[index][1] > .4) 
         posNgrams.push(element)
-        else if (combinedArray[index][1] < .1)
+        else if (combinedArray[index][1] < .2)
         negNgrams.push(element)
         else (
         // ( .51 > combinedArray[index][1] > .3 )
@@ -103,6 +101,9 @@ const renderNgramChips = Object.values(dataset).map ((element, index) => {
         <CardContent>
           <List >
             <ListItem className = {classes.list}>
+                <Typography> postiive </Typography>
+       
+                <br/>
                {posNgrams.map(element =>
                <Chip
                className ={classes.chip}
@@ -117,6 +118,8 @@ const renderNgramChips = Object.values(dataset).map ((element, index) => {
               <Divider  component="li"/>
 
               <ListItem className = {classes.list}>
+              <Typography> neutral </Typography>
+                <br/>
                {neuNgrams.map(element => 
                <Chip
                className ={classes.chip}
@@ -128,6 +131,8 @@ const renderNgramChips = Object.values(dataset).map ((element, index) => {
             </ListItem>
                 <Divider  component="li"/>
                 <ListItem className = {classes.list}>
+                <Typography> negative </Typography>
+                <br/>
                {negNgrams.map(element =>
                <Chip
                className ={classes.chip}

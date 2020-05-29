@@ -34,6 +34,10 @@ def return_ngrams ():
     #use pandas to read the csv
     df = pd.read_csv('ngram.csv')
     df['totalwords'] = [len(x.split()) for x in df['ngram'].tolist()]
+    df.to_csv(r'ngram.csv', index = False, header=True)
+
+
+
     dict = df.to_dict(orient='list')
     print(dict)
     return jsonify(dict)
