@@ -60,19 +60,18 @@ def run_ngrams():
         
             ngram_writer.writerow({'ngram': ngrams[x], 'score': float(classes[x])})
 
-            #returns a csv that is alphabetized  
-
-    #so i have this text file and i have this csv file that has every word from the text file 
-    # and a score attached to it 
-    # i'm trying to separate the text anaylsis by word and then find the score associated on the 
-    #word -- send it back with a score to be displayed 
+    #returns a csv that is alphabetized  
 
     #adds total word column to the csv
     df = pd.read_csv('ngram.csv')
     df['totalwords'] = [len(x.split()) for x in df['ngram'].tolist()]
     #sorts values by total words 
     df = df.sort_values(by=['totalwords'])
+    #writes the sorted column to the ngram.csv
     df = df.to_csv(r'ngram.csv', index = False, header=True)
+
+    #create a new csv with the singular words and scores only - 
+    df = pd.read_csv('ngram.csv')
    
  
 
