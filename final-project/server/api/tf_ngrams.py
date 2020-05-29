@@ -72,6 +72,10 @@ def run_ngrams():
 
     #create a new csv with the singular words and scores only - 
     df = pd.read_csv('ngram.csv')
+    df = df.loc[df['totalwords'] == 1]
+    df = df.to_csv(r'words.csv', index = False, header=True)
+
+
    
  
 
