@@ -55,7 +55,7 @@ const fetchData = async () => {
           <div>
               <NavBar/>
               <div className={classes.root} >
-              <h4>Change Title</h4>
+              <h2>Enter Text</h2>
                   <OutlinedInput id="component-outlined 2" value={inputValue} onChange={handleInput}/>
                       <Link to={{ pathname: "/text/sentiment", state: {inputValue: inputValue}}}>
                       <Button
@@ -68,7 +68,7 @@ const fetchData = async () => {
                       onClick={fetchData}
       
                       >
-                      Enter Text
+                      Predict Sentiment
                      </Button> 
                      </Link>  
               </div>

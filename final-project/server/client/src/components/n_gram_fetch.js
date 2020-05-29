@@ -101,9 +101,8 @@ const renderNgramChips = Object.values(dataset).map ((element, index ) => {
         <CardContent>
           <List >
             <ListItem className = {classes.list}>
-                <Typography> postiive </Typography>
-       
-                <br/>
+                <Typography> positive </Typography>
+      
                {posNgrams.map(element =>
                <Chip
                className ={classes.chip}

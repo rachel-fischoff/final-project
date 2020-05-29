@@ -25,14 +25,28 @@ def anaylze_text ():
 
 
 #defining the get route for the ngrams and each of their score 
-@app.route('/ngrams', methods = ['GET'])
+@app.route('/words', methods = ['GET'])
 
 #route handler function 
-def return_ngrams ():
+def return_words ():
 
     #run the model to return trigrams, bigrams and unigrams with sentiment score
     run_ngrams()
 
+    #use pandas to read the csv
+    df = pd.read_csv('words.csv')
+    dict = df.to_dict(orient='list')
+    print(dict)
+    return jsonify(dict)
+    
+
+
+
+#defining the get route for the ngrams and each of their score 
+@app.route('/ngrams', methods = ['GET'])
+
+#route handler function 
+def return_ngrams ():
     #use pandas to read the csv
     df = pd.read_csv('ngram.csv')
     dict = df.to_dict(orient='list')

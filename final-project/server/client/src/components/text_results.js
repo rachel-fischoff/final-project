@@ -54,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
           marginRight: theme.spacing(1),
           width: '25ch',
         },
+      chip:{
+          margin: theme.spacing(0.5),
+      },
   }));
 
 
@@ -70,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
     };
 
     const fetchData = async () => {
-      const res = await axios.get('http://localhost:5000/ngrams');
+      const res = await axios.get('http://localhost:5000/words');
       console.log(res.data);
       setDataset(res.data);   
   }
@@ -87,7 +90,24 @@ const useStyles = makeStyles((theme) => ({
     })
     console.log(combinedArray)
 
-    //I want to filter the array of arrays so I only return the arrays with the index[2] = 1  
+
+
+    const posWords = []
+    const negWords = []
+    const neuWords = []
+
+   combinedArray.map((element, index) => {
+       if(combinedArray[index][1] > .2) 
+       posWords.push(element)
+       else if (combinedArray[index][1] < .1)
+       negWords.push(element)
+       else (
+       neuWords.push (element)
+       )
+          
+   })
+
+
 
     return (
     <div key ={index} className={classes.root} > 
@@ -98,19 +118,43 @@ const useStyles = makeStyles((theme) => ({
             <Typography variant="body2" color="textPrimary" fontWeight="fontWeightBold"  variant="h4">
               
               {inputValue}
-              {/* <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              size="large"
-              type = "submit"
-              startIcon={<InputIcon>InputIcon</InputIcon>}
-              >
-              Predict Sentiment 
-              </Button>  */}
+
+
               <br/> 
               
-              display the color coded sentence 
+         
+              {posWords.map(element =>
+               <Chip
+               className ={classes.chip}
+               label = {element[0]}
+               clickable
+               color = "primary"
+               key={element[1]}
+               /> 
+             
+               )}
+
+              {neuWords.map(element =>
+               <Chip
+               className ={classes.chip}
+               label = {element[0]}
+               clickable
+               key={element[1]}
+               /> 
+             
+               )}
+              {negWords.map(element =>
+               <Chip
+               className ={classes.chip}
+               label = {element[0]}
+               clickable
+               color = "secondary"
+               key={element[1]}
+               /> 
+             
+               )}
+
+
 
             </Typography>
           
