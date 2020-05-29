@@ -8,8 +8,8 @@ import Chip from '@material-ui/core/Chip';
 import Divider from '@material-ui/core/Divider'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+// import ListItemText from '@material-ui/core/ListItemText';
+// import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 
 
 
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   ));
   
 
-export default function NGramResults(props) {
+export default function NGramTextResults(props) {
 
     const [dataset, setDataset] = useState({})
 
@@ -75,7 +75,7 @@ export default function NGramResults(props) {
     
 const renderNgramChips = Object.values(dataset).map ((element, index ) => {
 
-    const combinedArray = dataset.ngram.map(function(item, index) {
+    const combinedArray = dataset.ngram.map((item, index) => {
         return [item, dataset.score[index], dataset.totalwords[index]];
         })
     
@@ -83,15 +83,15 @@ const renderNgramChips = Object.values(dataset).map ((element, index ) => {
      const negNgrams = []
      const neuNgrams = []
 
+
+     //  Line 86:40:  Expected to return a value in arrow function  array-callback-return
     combinedArray.map((element, index) => {
         if(combinedArray[index][1] > .2) 
         posNgrams.push(element)
         else if (combinedArray[index][1] < .1)
         negNgrams.push(element)
-        else (
-        // ( .51 > combinedArray[index][1] > .3 )
+        else
         neuNgrams.push (element)
-        )
            
     })
 

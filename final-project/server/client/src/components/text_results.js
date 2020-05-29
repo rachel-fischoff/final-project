@@ -1,5 +1,5 @@
 import React from 'react';
-import {useRef, useEffect, useState, useContext} from 'react'
+import {useEffect, useState} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper'
 import clsx from 'clsx'
@@ -9,10 +9,9 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Box from '@material-ui/core/Box'
 import NavBar from './nav_bar'
-import NGramResults from './n_gram_fetch'
+import NGramTextResults from './n_gram_fetch'
 import axios from 'axios'
-import Button from '@material-ui/core/Button';
-import InputIcon from '@material-ui/icons/Input'
+
 import Chip from '@material-ui/core/Chip'
 
 
@@ -34,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
     expandOpen: {
       transform: 'rotate(180deg)',
     },
+
     paper: {
         padding: theme.spacing(2),
         textAlign: 'center',
@@ -48,11 +48,6 @@ const useStyles = makeStyles((theme) => ({
       }, 
       button: {
           margin: theme.spacing(1),
-        },
-        textField: {
-          marginLeft: theme.spacing(1),
-          marginRight: theme.spacing(1),
-          width: '25ch',
         },
       chip:{
           margin: theme.spacing(0.5),
@@ -96,6 +91,9 @@ const useStyles = makeStyles((theme) => ({
     const negWords = []
     const neuWords = []
 
+  
+  
+   // Line 99:39:   Expected to return a value in arrow function  array-callback-return
    combinedArray.map((element, index) => {
        if(combinedArray[index][1] > .2) 
        posWords.push(element)
@@ -107,15 +105,13 @@ const useStyles = makeStyles((theme) => ({
           
    })
 
-
-
     return (
     <div key ={index} className={classes.root} > 
 
       <Box className={classes.box}>
       <Paper className={classes.paper} >
   
-            <Typography variant="body2" color="textPrimary" fontWeight="fontWeightBold"  variant="h4">
+            <Typography fontWeight="fontWeightBold"  variant="h4">
               
               {inputValue}
 
@@ -173,7 +169,7 @@ const useStyles = makeStyles((theme) => ({
           </IconButton>
           </Typography>
           <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <NGramResults inputValue = {inputValue}/>
+          <NGramTextResults inputValue = {inputValue}/>
         </Collapse>     
         </Paper>
       </Box>

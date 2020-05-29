@@ -1,16 +1,11 @@
 import React from 'react';
-import {useState, useEffect} from 'react';
-import {Link, useHistory} from "react-router-dom"
-import {useDispatch} from 'react-redux'
-import {fetchTweets} from '../actions/index';
+import {useState} from 'react';
+import {Link} from "react-router-dom"
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField'
-import SearchIcon from '@material-ui/icons/Search';
 import InputIcon from '@material-ui/icons/Input'
 import axios from 'axios'
-import Typography from '@material-ui/core/Typography';
 import NavBar from './nav_bar'
 
 
@@ -25,45 +20,51 @@ const useStyles = makeStyles((theme) => ({
     button: {
         margin: theme.spacing(1),
       },
-      textField: {
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
-        width: '25ch',
-      },
   }));
 
   
 export default function SearchBarTwitter () { 
   
     const [term, setTerm] = useState('');
-    // const [search, setSearch] = useState(term);
-    const dispatch = useDispatch(); 
-    const history = useHistory();
     
     const classes = useStyles();
   
     const handleChange = (event) => {
       setTerm(event.target.value);
-      console.log('term '+ term)
     };
   
+
+    const fetchData = async () => {
+
+      console.log('put twitter api info')
+      // const response = await axios.post('http://localhost:5000/text', 
+       
+      //   {'text': inputValue}
+      // )
+      // .then(function (response) {
+      //   console.log(response);
+      // })
+     
+    }
+
       return ( 
           <div>
             <NavBar/>
                 <div className={classes.root} >
-                <h4>Find Tweets by Subject</h4>
+                <h2>Find Tweets by Subject</h2>
         
                     <OutlinedInput id="component-outlined 2" value={term} onChange={handleChange}/>
-                    <Link to={{ pathname: "/twitter/sentiment", state: {term: term}}}>>
-
-                        <Button
+                    <Link to={{ pathname: "/twitter/sentiment", state: {term: term}}}>
+                      <Button
                         variant="contained"
                         color="primary"
                         className={classes.button}
                         size="large"
                         type = "submit"
-                        startIcon={<InputIcon>InputIcon</InputIcon>}>
-                        {/* component={Link} to="/twitter/sentiment"> */}
+                        startIcon={<InputIcon>InputIcon</InputIcon>}
+                        onClick={fetchData}
+        
+                        >
                         Predict Sentiment
                         </Button>
                         </Link>

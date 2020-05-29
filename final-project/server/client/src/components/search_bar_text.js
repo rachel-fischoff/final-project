@@ -1,7 +1,6 @@
 import React from 'react';
-import {useState, useEffect} from 'react';
-import {useDispatch} from 'react-redux'
-import {Link, useHistory} from 'react-router-dom'
+import {useState } from 'react';
+import {Link} from 'react-router-dom'
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -20,19 +19,11 @@ const useStyles = makeStyles((theme) => ({
     button: {
         margin: theme.spacing(1),
       },
-      textField: {
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
-        width: '25ch',
-      },
   }));
 
   
 export default function SearchBarText () { 
   const classes = useStyles()
-
-  const dispatch = useDispatch();
-  let history = useHistory();
 
   const [inputValue, setInputValue] = useState('')
 
@@ -48,7 +39,7 @@ const fetchData = async () => {
   .then(function (response) {
     console.log(response);
   })
- 
+  console.log(response)
 }
 
     return ( 

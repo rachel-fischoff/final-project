@@ -1,5 +1,5 @@
 import React from 'react';
-import {useRef, useEffect, useState, useContext} from 'react'
+import { useEffect, useState} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper'
 import clsx from 'clsx'
@@ -7,12 +7,9 @@ import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import twitter from '../sample_data'
-import NGram from './n_gram';
+import Chip from '@material-ui/core/Chip'
 import Box from '@material-ui/core/Box'
 import NavBar from './nav_bar'
-import Avatar from '@material-ui/core/Avatar'
-import CardHeader from '@material-ui/core/CardHeader'
 import NGramTwitterResults from './n_gram_twitter'
 
 const useStyles = makeStyles((theme) => ({
@@ -54,12 +51,22 @@ const useStyles = makeStyles((theme) => ({
   const term = props.location.state.term
 
   const [expanded, setExpanded] = useState(false);
+  const [dataset, setDataset] = useState([])
+
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  const fetchData = async () => {
+  //   const res = await axios.get('http://localhost:5000/words');
+    console.log('to put twitter info');
+  //   setDataset(res.data);   
+}
 
-  
+useEffect(() => {
+  fetchData();
+}, []);
+
 
 
     return (
@@ -67,8 +74,10 @@ const useStyles = makeStyles((theme) => ({
           <NavBar/>
             <Box className={classes.box}>
             <Paper className={classes.paper} >
-                <Typography variant="body2" color="textPrimary" fontWeight="fontWeightBold"  variant="h6">
-                {/* {insert twitter status} */}
+                <Typography color="textPrimary" fontWeight="fontWeightBold"  variant="h6">
+                {term}
+                <br/>
+                put top tweets and sentiment per word with colored chips
                 </Typography>
                
                 <Typography paragraph>
@@ -84,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
                 onClick={handleExpandClick}
                 aria-expanded={expanded}
                 aria-label="show more"
-                label ="nGram"
+         
                 > View NGrams
                 <ExpandMoreIcon className={classes.moreIcon}/>
                 </IconButton>
