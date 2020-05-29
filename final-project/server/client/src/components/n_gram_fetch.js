@@ -73,7 +73,7 @@ export default function NGramResults(props) {
     // if score = (0-.3) = negative, if score = (.3-.5 = neutral) and if (.51 or greater = positive)
 
     
-const renderNgramChips = Object.values(dataset).map ((element, index) => {
+const renderNgramChips = Object.values(dataset).map ((element, index ) => {
 
     const combinedArray = dataset.ngram.map(function(item, index) {
         return [item, dataset.score[index], dataset.totalwords[index]];
@@ -84,9 +84,9 @@ const renderNgramChips = Object.values(dataset).map ((element, index) => {
      const neuNgrams = []
 
     combinedArray.map((element, index) => {
-        if(combinedArray[index][1] > .4) 
+        if(combinedArray[index][1] > .2) 
         posNgrams.push(element)
-        else if (combinedArray[index][1] < .2)
+        else if (combinedArray[index][1] < .1)
         negNgrams.push(element)
         else (
         // ( .51 > combinedArray[index][1] > .3 )

@@ -18,7 +18,7 @@ def run_ngrams():
 
     #open the text file 
     with open ('text.txt', 'r') as infile:
-        text_analysis = [infile.read()] 
+        text_analysis = [infile.read()]
 
     #Use scikit learn to create the ngrams 
     vectorizer = CountVectorizer(analyzer='word', ngram_range=(1, 3), token_pattern=r'\b\w+\b', min_df=1)
@@ -67,7 +67,14 @@ def run_ngrams():
     # i'm trying to separate the text anaylsis by word and then find the score associated on the 
     #word -- send it back with a score to be displayed 
 
-        # print (text_analysis, 'text should be the original text ? maybe un array form')
+    #adds total word column to the csv
+    df = pd.read_csv('ngram.csv')
+    df['totalwords'] = [len(x.split()) for x in df['ngram'].tolist()]
+    #sorts values by total words 
+    df = df.sort_values(by=['totalwords'])
+    df = df.to_csv(r'ngram.csv', index = False, header=True)
+   
+ 
 
     
 if __name__ == "__main__":

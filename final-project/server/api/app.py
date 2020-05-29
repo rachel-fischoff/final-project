@@ -20,7 +20,7 @@ def anaylze_text ():
 
     #writes data to text file for Natural Language Processing and sentiment analysis
     with open ('text.txt', 'w') as outfile:
-        json.dump(text_data, outfile)
+        json.dump(text_data['text'], outfile)
     return text_data
 
 
@@ -30,14 +30,11 @@ def anaylze_text ():
 #route handler function 
 def return_ngrams ():
 
+    #run the model to return trigrams, bigrams and unigrams with sentiment score
     run_ngrams()
+
     #use pandas to read the csv
     df = pd.read_csv('ngram.csv')
-    df['totalwords'] = [len(x.split()) for x in df['ngram'].tolist()]
-    df.to_csv(r'ngram.csv', index = False, header=True)
-
-
-
     dict = df.to_dict(orient='list')
     print(dict)
     return jsonify(dict)

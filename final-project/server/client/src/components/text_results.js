@@ -13,6 +13,7 @@ import NGramResults from './n_gram_fetch'
 import axios from 'axios'
 import Button from '@material-ui/core/Button';
 import InputIcon from '@material-ui/icons/Input'
+import Chip from '@material-ui/core/Chip'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -94,10 +95,10 @@ const useStyles = makeStyles((theme) => ({
       <Box className={classes.box}>
       <Paper className={classes.paper} >
   
-            <Typography variant="body2" color="textPrimary" fontWeight="fontWeightBold"  variant="h6">
+            <Typography variant="body2" color="textPrimary" fontWeight="fontWeightBold"  variant="h4">
               
               {inputValue}
-              <Button
+              {/* <Button
               variant="contained"
               color="primary"
               className={classes.button}
@@ -106,10 +107,11 @@ const useStyles = makeStyles((theme) => ({
               startIcon={<InputIcon>InputIcon</InputIcon>}
               >
               Predict Sentiment 
-              </Button> 
+              </Button>  */}
               <br/> 
               
               display the color coded sentence 
+
             </Typography>
           
           <Typography >

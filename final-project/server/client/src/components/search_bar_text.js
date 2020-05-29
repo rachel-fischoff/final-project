@@ -41,10 +41,10 @@ export default function SearchBarText () {
   }
 
 const fetchData = async () => {
-  const response = await axios.post('http://localhost:5000/text', {
-    // is there a better way to send this? 
-    text: inputValue
-  })
+  const response = await axios.post('http://localhost:5000/text', 
+   
+    {'text': inputValue}
+  )
   .then(function (response) {
     console.log(response);
   })
