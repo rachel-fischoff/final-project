@@ -39,7 +39,6 @@ const fetchData = async () => {
   .then(function (response) {
     console.log(response);
   })
-  console.log(response)
 }
 
     return ( 

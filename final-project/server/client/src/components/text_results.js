@@ -37,15 +37,19 @@ const useStyles = makeStyles((theme) => ({
     paper: {
         padding: theme.spacing(2),
         textAlign: 'center',
-        color: theme.palette.text.secondary,
+        color: theme.palette.text.primary,
         border: '1px solid #d3d4d5',
-        margin: 'auto',
+        margin: 'auto'
 
       },
       box : {
         margin: 'auto',
         width: '80%',
       }, 
+      typography: {
+        fontWeight: 'bold'
+
+      },
       button: {
           margin: theme.spacing(1),
         },
@@ -111,20 +115,20 @@ const useStyles = makeStyles((theme) => ({
       <Box className={classes.box}>
       <Paper className={classes.paper} >
   
-            <Typography fontWeight="fontWeightBold"  variant="h4">
+            <Typography className= {classes.typography} variant="h4">
               
               {inputValue}
 
 
               <br/> 
-              
-         
+              {/*               
+                        TODO: have the chips be in the order of the sentence */}
               {posWords.map(element =>
                <Chip
                className ={classes.chip}
                label = {element[0]}
                clickable
-               color = "primary"
+               style={{backgroundColor:'green'}}
                key={element[1]}
                /> 
              
@@ -136,6 +140,7 @@ const useStyles = makeStyles((theme) => ({
                label = {element[0]}
                clickable
                key={element[1]}
+               style={{backgroundColor:'yellow'}}
                /> 
              
                )}
@@ -144,7 +149,7 @@ const useStyles = makeStyles((theme) => ({
                className ={classes.chip}
                label = {element[0]}
                clickable
-               color = "secondary"
+               style={{backgroundColor:'red'}}
                key={element[1]}
                /> 
              

@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         alignItems: 'center',
       },
+
     }
   },
     root: {
@@ -108,7 +109,7 @@ const renderNgramChips = Object.values(dataset).map ((element, index ) => {
                className ={classes.chip}
                label = {element[0]}
                clickable
-               color = "primary"
+               style={{backgroundColor:'#4caf50'}}
                key={element[1]}
                /> 
              
@@ -125,6 +126,7 @@ const renderNgramChips = Object.values(dataset).map ((element, index ) => {
                label = {element[0]}
                clickable
                key={element[1]}
+               style={{backgroundColor:'#ffee58'}}
             
                /> )}
             </ListItem>
@@ -137,7 +139,7 @@ const renderNgramChips = Object.values(dataset).map ((element, index ) => {
                className ={classes.chip}
                label = {element[0]}
                clickable
-               color = "secondary"
+               style={{backgroundColor: '#d32f2f' }}
                key={element[1]}
                /> )}
               </ListItem>
