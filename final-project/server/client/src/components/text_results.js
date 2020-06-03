@@ -12,7 +12,7 @@ import NavBar from './nav_bar'
 import NGramTextResults from './n_gram_fetch'
 import axios from 'axios'
 import Chip from '@material-ui/core/Chip'
-import { isArray } from 'util';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -74,8 +74,6 @@ const useStyles = makeStyles((theme) => ({
 
     const fetchData = async () => {
       const res = await axios.get('http://localhost:5000/words');
-      console.log(Array.isArray(res.data));
-      console.log(typeof res.data);
       console.log(res.data)
       setDataset(res.data);   
   }
@@ -103,38 +101,40 @@ const useStyles = makeStyles((theme) => ({
 
                     {dataset.map((element)  => { 
                     
-                      if(element[1] > .2)
+                      if(element[1] > .2) {
            
                       return (
                     <Chip
                     className ={classes.chip}
                     label = {element[0]}
                     clickable
-                    style={{backgroundColor:'green'}}
+                    style={{backgroundColor:'#4caf50'}}
                     key={element[1]}
                     /> )
+                      }
                 
-                    if(.2 > element[1] > .1) 
+                      if (element[1] < .1) {
                       return (
                     <Chip
                     className ={classes.chip}
                     label = {element[0]}
                     clickable
-                    key={element[1]}
-                    style={{backgroundColor:'yellow'}}
-                    /> 
-                      )
-              
-                      if (element[1] < .1) 
-                      return (
-                    <Chip
-                    className ={classes.chip}
-                    label = {element[0]}
-                    clickable
-                    style={{backgroundColor:'red'}}
+                    style={{backgroundColor:'#d32f2f'}}
                     key={element[1]}
                     /> 
                       )
+                      }
+                      if(.2 > element[1] > .1) {
+                        return (
+                      <Chip
+                      className ={classes.chip}
+                      label = {element[0]}
+                      clickable
+                      key={element[1]}
+                      style={{backgroundColor:'#ffee58'}}
+                      /> 
+                        )
+                        }
                       })}
 
 
