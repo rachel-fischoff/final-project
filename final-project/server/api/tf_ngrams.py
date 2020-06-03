@@ -75,56 +75,56 @@ def run_ngrams():
     df = df.loc[df['totalwords'] == 1]
     df = df.to_csv(r'words.csv', index = False, header=True)
 
-    #I need to arrange the words csv in the same order as the word sentence. 
-    # [create 2 arrays with indexes? I'm not sure the best way to do this]???
-    print(text_analysis, text_analysis[0], 'txt analysis + text analysis [0]')
-    #read warning?
-    ordered_list = re.sub("[^\w]", " ",  text_analysis[0].lower()).split()
-    print(ordered_list, 'ordered_list')
-    #right now the wordList is the original text broke into an array with each word as in index []
-    #maybe i should map it out ?? in the correct order?
-    #sorting lists by index? 
+    # #I need to arrange the words csv in the same order as the word sentence. 
+    # # [create 2 arrays with indexes? I'm not sure the best way to do this]???
+    # print(text_analysis, text_analysis[0], 'txt analysis + text analysis [0]')
+    # #read warning?
+    # ordered_list = re.sub("[^\w]", " ",  text_analysis[0].lower()).split()
+    # print(ordered_list, 'ordered_list')
+    # #right now the wordList is the original text broke into an array with each word as in index []
+    # #maybe i should map it out ?? in the correct order?
+    # #sorting lists by index? 
     
     
-    #use pandas to read the csv
-    df = pd.read_csv('words.csv')
-    scored_list = df.values.tolist()
-    print(scored_list, 'list')
+    # #use pandas to read the csv
+    # df = pd.read_csv('words.csv')
+    # scored_list = df.values.tolist()
+    # print(scored_list, 'list')
 
 
 
-        # printing original list 
-    print ("The original list is : " + str(scored_list)) 
+    #     # printing original list 
+    # print ("The original list is : " + str(scored_list)) 
     
-    # printing sort order list 
-    print ("The sort order list is : " + str(ordered_list)) 
+    # # printing sort order list 
+    # print ("The sort order list is : " + str(ordered_list)) 
     
-    # using list comprehension 
-    # to sort according to other list  
-    res = [tuple for x in ordered_list for tuple in scored_list if tuple[0] == x] 
+    # # using list comprehension 
+    # # to sort according to other list  
+    # res = [tuple for x in ordered_list for tuple in scored_list if tuple[0] == x] 
     
-    # printing result 
-    print ("The sorted list is : " + str(res)) 
+    # # printing result 
+    # print ("The sorted list is : " + str(res)) 
 
-        # Python code to demonstrate 
-    # to sort according to other list 
-    # using sort() + lambda + index() 
+    #     # Python code to demonstrate 
+    # # to sort according to other list 
+    # # using sort() + lambda + index() 
 
 
 
-    # printing original list 
-    print ("The original list is : " + str(scored_list)) 
+    # # printing original list 
+    # print ("The original list is : " + str(scored_list)) 
 
-    # printing sort order list 
-    print ("The sort order list is : " + str(ordered_list)) 
+    # # printing sort order list 
+    # print ("The sort order list is : " + str(ordered_list)) 
 
-    # using sort() + lambda + index() 
-    # to sort according to other list 
-    # test_list.sort(key = lambda(i, j): sort_order.index(i)) # works in python 2 
-    scored_list.sort(key = lambda i: ordered_list.index(i[0])) # works in python 3 
+    # # using sort() + lambda + index() 
+    # # to sort according to other list 
+    # # test_list.sort(key = lambda(i, j): sort_order.index(i)) # works in python 2 
+    # scored_list.sort(key = lambda i: ordered_list.index(i[0])) # works in python 3 
 
-    # printing result 
-    print ("The sorted list is : " + str(scored_list)) 
+    # # printing result 
+    # print ("The sorted list is : " + str(scored_list)) 
 
 
 

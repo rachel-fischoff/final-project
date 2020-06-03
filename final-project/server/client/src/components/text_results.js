@@ -11,8 +11,8 @@ import Box from '@material-ui/core/Box'
 import NavBar from './nav_bar'
 import NGramTextResults from './n_gram_fetch'
 import axios from 'axios'
-
 import Chip from '@material-ui/core/Chip'
+import { isArray } from 'util';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -70,10 +70,13 @@ const useStyles = makeStyles((theme) => ({
     const handleExpandClick = () => {
       setExpanded(!expanded);
     };
+  
 
     const fetchData = async () => {
       const res = await axios.get('http://localhost:5000/words');
-      console.log(res.data);
+      console.log(Array.isArray(res.data));
+      console.log(typeof res.data);
+      console.log(res.data)
       setDataset(res.data);   
   }
 
@@ -81,114 +84,93 @@ const useStyles = makeStyles((theme) => ({
     fetchData();
   }, []);
 
-// Do not want to map it. Want to only display once. Other ways ???
-  const renderText = Object.values(dataset).map ((element, index) => {
-  
-    const combinedArray = dataset.ngram.map((item, index) => {
-    return [item, dataset.score[index], dataset.totalwords[index]];
-    })
-    console.log(combinedArray)
+  // Figure out how to map from dataset
+   const renderText = () => (
+          <div className={classes.root} > 
+            <NavBar/>
+
+            <Box className={classes.box}>
+            <Paper className={classes.paper} >
+        
+                  <Typography className= {classes.typography} variant="h4">
+                    
+                    {inputValue}
 
 
-
-    const posWords = []
-    const negWords = []
-    const neuWords = []
-
-  
-  
-   // Line 99:39:   Expected to return a value in arrow function  array-callback-return
-   combinedArray.map((element, index) => {
-       if(combinedArray[index][1] > .2) 
-       posWords.push(element)
-       else if (combinedArray[index][1] < .1)
-       negWords.push(element)
-       else (
-       neuWords.push (element)
-       )
+                    <br/> 
           
-   })
 
-    return (
-    <div key ={index} className={classes.root} > 
 
-      <Box className={classes.box}>
-      <Paper className={classes.paper} >
-  
-            <Typography className= {classes.typography} variant="h4">
+                    {dataset.map((element)  => { 
+                    
+                      if(element[1] > .2)
+           
+                      return (
+                    <Chip
+                    className ={classes.chip}
+                    label = {element[0]}
+                    clickable
+                    style={{backgroundColor:'green'}}
+                    key={element[1]}
+                    /> )
+                
+                    if(.2 > element[1] > .1) 
+                      return (
+                    <Chip
+                    className ={classes.chip}
+                    label = {element[0]}
+                    clickable
+                    key={element[1]}
+                    style={{backgroundColor:'yellow'}}
+                    /> 
+                      )
               
-              {inputValue}
-
-
-              <br/> 
-              {/*               
-                        TODO: have the chips be in the order of the sentence */}
-              {posWords.map(element =>
-               <Chip
-               className ={classes.chip}
-               label = {element[0]}
-               clickable
-               style={{backgroundColor:'green'}}
-               key={element[1]}
-               /> 
-             
-               )}
-
-              {neuWords.map(element =>
-               <Chip
-               className ={classes.chip}
-               label = {element[0]}
-               clickable
-               key={element[1]}
-               style={{backgroundColor:'yellow'}}
-               /> 
-             
-               )}
-              {negWords.map(element =>
-               <Chip
-               className ={classes.chip}
-               label = {element[0]}
-               clickable
-               style={{backgroundColor:'red'}}
-               key={element[1]}
-               /> 
-             
-               )}
+                      if (element[1] < .1) 
+                      return (
+                    <Chip
+                    className ={classes.chip}
+                    label = {element[0]}
+                    clickable
+                    style={{backgroundColor:'red'}}
+                    key={element[1]}
+                    /> 
+                      )
+                      })}
 
 
 
-            </Typography>
-          
-          <Typography >
-          
-          <IconButton
-          className={clsx(classes.expand, {
-              [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-          >   View NGrams
-          <ExpandMoreIcon />
-          
-          </IconButton>
-          </Typography>
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <NGramTextResults inputValue = {inputValue}/>
-        </Collapse>     
-        </Paper>
-      </Box>
-      </div>
-    )
-  
-  })
-      return ( 
-      
+
+                  </Typography>
+                
+                <Typography >
+                
+                <IconButton
+                className={clsx(classes.expand, {
+                    [classes.expandOpen]: expanded,
+                })}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
+                >   View NGrams
+                <ExpandMoreIcon />
+                
+                </IconButton>
+                </Typography>
+                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <NGramTextResults inputValue = {inputValue}/>
+              </Collapse>     
+              </Paper>
+            </Box>
+            </div>
+   )
+    
+      return (
         <div>
-          <NavBar/>
-          {renderText}
-        </div>
-      
-         
+          {renderText()}
+          </div>
       )
-}
+    
+    }
+        
+
+     
