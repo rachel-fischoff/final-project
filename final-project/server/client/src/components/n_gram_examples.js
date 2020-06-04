@@ -52,11 +52,10 @@ export default function NGramExampleResults(props) {
 
     useEffect(() => {
         setDataset(props.dataset)
-    }, []);
+    }, [props.dataset]);
 
     const renderNgramChips = () => {
     
-
 
       const combinedArray = dataset.ngram.map((item, index) => {
           return [item, dataset.score[index], dataset.totalwords[index]];

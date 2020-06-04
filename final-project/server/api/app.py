@@ -18,8 +18,32 @@ def get_examples ():
    #use pandas to read the csv
     df = pd.read_csv('sample_text_1.csv')
     dict = df.to_dict(orient='list')
-    print(dict)
+    print(dict, 'examples')
     return jsonify(dict)
+
+
+#defining the get route for each word and each of their score 
+@app.route('/home/words', methods = ['GET'])
+
+#route handler function 
+def return_home_words ():
+    #open the text file 
+    with open ('sample_text_1.txt', 'r') as infile:
+        text_analysis = [infile.read()]
+    #read warning 
+    ordered_list = re.sub("[^\w]", " ",  text_analysis[0].lower()).split()
+
+    #use pandas to read the csv
+    df = pd.read_csv('words_sample_1.csv')
+    scored_list = df.values.tolist()
+
+    # using list comprehension 
+    # to sort according to other list  
+    res = [tuple for x in ordered_list for tuple in scored_list if tuple[0] == x] 
+
+    return jsonify(res)
+    
+
 
 #defining the post route for the text submitted by the user 
 @app.route('/text', methods = ['POST'])

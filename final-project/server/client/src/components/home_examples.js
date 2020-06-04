@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
         width: '80%',
       }, 
       typography: {
-        fontWeight: 'bold'
+
 
       },
       button: {
@@ -65,6 +65,7 @@ const useStyles = makeStyles((theme) => ({
 
     const [expanded, setExpanded] = useState(false)
     const  [dataset, setDataset] = useState({ngram: [], score: [], totalwords: []})
+    const [words, setWords] = useState([])
   
     const handleExpandClick = () => {
       setExpanded(!expanded);
@@ -73,23 +74,29 @@ const useStyles = makeStyles((theme) => ({
     const fetchData = async () => {
       const response = await axios.get('http://localhost:5000/home');
       setDataset(response.data) 
-   
     }
+
+  const fetchWords =  async () => {
+    const response = await axios.get('http://localhost:5000/home/words');
+    setWords(response.data) 
+  }
+
 
     useEffect(() => {
       fetchData()
   }, []);
 
 
-  const renderSentiment = () => {
+const renderSentiment = () => {
 
-    const combinedArray = dataset.ngram.map((item, index) => {
-      return [item, dataset.score[index], dataset.totalwords[index]];
-      })
-      
-    {combinedArray.map((element)  => { 
+
+
+      return (
+    <div>
+    {words.map((element, index)  => { 
+      console.log(element)
               
-      if(element[1] > .2) {
+      if(element[1] > 0) {
 
       return (
     <Chip
@@ -97,33 +104,35 @@ const useStyles = makeStyles((theme) => ({
     label = {element[0]}
     clickable
     style={{backgroundColor:'#4caf50'}}
-    key={element[1]}
+    key={index}
     /> )
       }
 
-      if (element[1] < .1) {
+      if (element[1] < -.5) {
       return (
     <Chip
     className ={classes.chip}
     label = {element[0]}
     clickable
     style={{backgroundColor:'#d32f2f'}}
-    key={element[1]}
+    key={index}
     /> 
       )
       }
-      if(.2 > element[1] > .1) {
+      if(0 > element[1] > -.5) {
         return (
       <Chip
       className ={classes.chip}
       label = {element[0]}
       clickable
-      key={element[1]}
+      key={index}
       style={{backgroundColor:'#ffee58'}}
       /> 
         )
         }
       })}
+      </div>
+      )
 
   }
 
@@ -146,18 +155,15 @@ const useStyles = makeStyles((theme) => ({
                       size="small"
                       type = "submit"
                       startIcon={<InputIcon>InputIcon</InputIcon>}
-                      onClick={renderSentiment}
+                      onClick={fetchWords}
       
                       >
                       Click Me
-                     </Button> 
+                </Button> 
 
-              <br/> 
+                {renderSentiment()}
 
-    
-
-
-              
+              <br/>
 
             </Typography>
           
@@ -186,3 +192,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 }
+
+
+  
