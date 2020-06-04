@@ -1,8 +1,7 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import * as actions from '../actions';
+import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import NavBar from './nav_bar'
+import HomeExamples from './home_examples'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -45,9 +44,12 @@ const useStyles = makeStyles((theme) => ({
     
         return (
             <div> 
-               <NavBar/>
-             <h6 className = {classes.root}>  HOME PAGE  -- ADD EXAMPLE TWEETS AND QUOTES WITH NGRAMS</h6>
-             <br/>
+              <NavBar/>
+              
+             
+              <br/>
+
+              <HomeExamples/>
             </div>
         )
     }

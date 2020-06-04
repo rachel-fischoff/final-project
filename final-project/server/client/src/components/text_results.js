@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
         width: '80%',
       }, 
       typography: {
-        fontWeight: 'bold'
+        // fontWeight: 'bold'
 
       },
       button: {
@@ -68,14 +68,15 @@ const useStyles = makeStyles((theme) => ({
     const [dataset, setDataset] = useState([])
  
     const handleExpandClick = () => {
+
       setExpanded(!expanded);
     };
   
 
     const fetchData = async () => {
       const res = await axios.get('http://localhost:5000/words');
-      console.log(res.data)
       setDataset(res.data);   
+      console.log(dataset, 'text results word by word')
   }
 
   useEffect(() => {
@@ -84,6 +85,7 @@ const useStyles = makeStyles((theme) => ({
 
   // Figure out how to map from dataset
    const renderText = () => (
+     
           <div className={classes.root} > 
             <NavBar/>
 
@@ -97,11 +99,11 @@ const useStyles = makeStyles((theme) => ({
 
                     <br/> 
           
-
+                    
 
                     {dataset.map((element)  => { 
                     
-                      if(element[1] > .2) {
+                      if(element[1] > 0) {
            
                       return (
                     <Chip
@@ -113,7 +115,7 @@ const useStyles = makeStyles((theme) => ({
                     /> )
                       }
                 
-                      if (element[1] < .1) {
+                      if (element[1] < -.5) {
                       return (
                     <Chip
                     className ={classes.chip}
@@ -124,7 +126,7 @@ const useStyles = makeStyles((theme) => ({
                     /> 
                       )
                       }
-                      if(.2 > element[1] > .1) {
+                      if(0 > element[1] > -.5) {
                         return (
                       <Chip
                       className ={classes.chip}
@@ -157,7 +159,7 @@ const useStyles = makeStyles((theme) => ({
                 </IconButton>
                 </Typography>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <NGramTextResults inputValue = {inputValue}/>
+                <NGramTextResults />
               </Collapse>     
               </Paper>
             </Box>
