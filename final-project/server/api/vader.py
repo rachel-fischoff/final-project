@@ -12,13 +12,12 @@ def run_vader():
     with open ('text.txt', 'r') as infile:
         text_analysis = [infile.read()]
 
-    print(vader.polarity_scores(text_analysis[0]))
-
     #Use scikit learn to create the ngrams 
-    vectorizer = CountVectorizer(analyzer='word', ngram_range=(1, 3), token_pattern=r'\b\w+\b', min_df=1)
+    vectorizer = CountVectorizer(analyzer='word', ngram_range=(1, 4), token_pattern=r'\b\w+\b', min_df=1, stop_words=["@"])
     X = vectorizer.fit_transform(text_analysis)
     ngrams = vectorizer.get_feature_names()
-    print(ngrams, 'ngrams')
+    # print(ngrams, 'ngrams')
+    # print(X.toarray(), 'x to array')
 
 
     # ngrams_vader = []
@@ -44,18 +43,7 @@ def run_vader():
         
             ngram_writer.writerow({'ngrams': ngram})  
     
-    #adds total word column to the csv
-    df = pd.read_csv('ngram_vader.csv')
-    df['total_words'] = [len(x.split()) for x in df['ngrams'].tolist()]
-    #sorts values by total words 
-    df = df.sort_values(by=['total_words'])
-    #writes the sorted column to the ngram.csv
-    df = df.to_csv(r'ngram_vader.csv', index = False, header=True)
 
-    #create a new csv with the singular words and scores only - 
-    df = pd.read_csv('ngram_vader.csv')
-    df = df.loc[df['total_words'] == 1]
-    df = df.to_csv(r'words.csv', index = False, header=True)
     
 
 if __name__ == "__main__":

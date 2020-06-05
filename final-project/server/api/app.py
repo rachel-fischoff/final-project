@@ -91,36 +91,50 @@ def return_words ():
     
     run_vader()
 
+    #adds total word column to the csv
+    df = pd.read_csv('ngram_vader.csv')
+    df['total_words'] = [len(x.split()) for x in df['ngrams'].tolist()]
+    #sorts values by total words 
+    df = df.sort_values(by=['total_words'])
+    #writes the sorted column to the ngram.csv
+    df = df.to_csv(r'ngram_vader.csv', index = False, header=True)
+
+    #create a new csv with the singular words and scores only - 
+    df = pd.read_csv('ngram_vader.csv')
+    df = df.loc[df['total_words'] == 1]
+    df = df.to_csv(r'words.csv', index = False, header=True)
+
     #open the text file 
     with open ('text.txt', 'r') as infile:
         text_analysis = [infile.read()]
 
-    print(text_analysis, text_analysis[0], 'txt analysis + text analysis [0]')
-    #read warning 
-    ordered_list = re.sub("[^\w]", " ",  text_analysis[0].lower()).split()
-    print(ordered_list, 'ordered_list')
-    #use pandas to read the csv
-    df = pd.read_csv('words.csv')
-    df['scores'] = df['ngrams'].apply(lambda ngrams: vader.polarity_scores(ngrams))
+        print(text_analysis, text_analysis[0], 'txt analysis + text analysis [0]')
+        #read warning 
+        ordered_list = re.sub("[^\w]", " ",  text_analysis[0].lower()).split()
+        print(ordered_list, 'ordered_list')
 
-    scored_list = df.values.tolist()
-    print(scored_list, 'list')
+        #use pandas to read the csv
+        df = pd.read_csv('words.csv')
+        df['scores'] = df['ngrams'].apply(lambda ngrams: vader.polarity_scores(ngrams))
 
-    # printing original list 
-    print ("The original list is : " + str(scored_list)) 
-    
-    # printing sort order list 
-    print ("The sort order list is : " + str(ordered_list)) 
-    
-    # using list comprehension 
-    # to sort according to other list  
-    res = [tuple for x in ordered_list for tuple in scored_list if tuple[0] == x] 
-    
-    # printing result 
-    print ("The sorted list is : " + str(res)) 
+        scored_list = df.values.tolist()
+        print(scored_list, 'list')
 
-    return jsonify(res)
-    
+        # printing original list 
+        print ("The original list is : " + str(scored_list)) 
+        
+        # printing sort order list 
+        print ("The sort order list is : " + str(ordered_list)) 
+        
+        # using list comprehension 
+        # to sort according to other list  
+        res = [tuple for x in ordered_list for tuple in scored_list if tuple[0] == x] 
+        
+        # printing result 
+        print ("The sorted list is : " + str(res)) 
+
+        return jsonify(res)
+        
 
 
 #defining the get route for the ngrams and each of their score 
@@ -129,10 +143,13 @@ def return_words ():
 #route handler function 
 def return_ngrams ():
     #use pandas to read the csv
-    df = pd.read_csv('ngram.csv')
-    dict = df.to_dict(orient='list')
-    print(dict)
-    return jsonify(dict)
+    df = pd.read_csv('ngram_vader.csv', engine='python')
+    # # I need to remove those double quotes 
+    df['scores'] = df['ngrams'].apply(lambda ngrams: vader.polarity_scores(ngrams))
+    # # df['score'] = df['score'].str.strip('"')
+    df = df.to_dict(orient='list')
+    print(df)
+    return jsonify(df)
     
 
 

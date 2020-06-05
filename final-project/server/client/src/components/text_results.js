@@ -139,7 +139,18 @@ const useStyles = makeStyles((theme) => ({
                       /> 
                         )
                         }
-                      })}
+                        else{
+                          return(
+                        <Chip
+                        className ={classes.chip}
+                        label = {element[0]}
+                        clickable
+                        style={{backgroundColor: '#2196f3' }}
+                        key={index}
+                        /> 
+                    )} 
+                    
+                    })}
 
 
 
