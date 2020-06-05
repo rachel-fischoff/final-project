@@ -16,8 +16,6 @@ def run_vader():
     vectorizer = CountVectorizer(analyzer='word', ngram_range=(1, 4), token_pattern=r'\b\w+\b', min_df=1, stop_words=["@"])
     X = vectorizer.fit_transform(text_analysis)
     ngrams = vectorizer.get_feature_names()
-    # print(ngrams, 'ngrams')
-    # print(X.toarray(), 'x to array')
 
 
     # ngrams_vader = []

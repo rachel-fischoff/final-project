@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
     const classes = useStyles();
 
     const [expanded, setExpanded] = useState(false)
-    const  [dataset, setDataset] = useState({ngram: [], score: [], totalwords: []})
+    const [dataset, setDataset] = useState({ngrams: [], scores: [{ 'compound': 0, 'neg': 0, 'neu': 0, 'pos': 0}], total_words: []})
     const [words, setWords] = useState([])
   
     const handleExpandClick = () => {
@@ -81,6 +81,7 @@ const useStyles = makeStyles((theme) => ({
   const fetchWords =  async () => {
     const response = await axios.get('http://localhost:5000/home/words');
     setWords(response.data) 
+    console.log(response.data)
   }
 
 
@@ -92,14 +93,12 @@ const useStyles = makeStyles((theme) => ({
 
 const renderSentiment = () => {
 
-
-
       return (
     <div>
     {words.map((element, index)  => { 
    
-              
-      if(element[1] > 0) {
+              console.log(element)
+      if(element[2].pos > 0) {
 
       return (
     <Chip
@@ -111,7 +110,7 @@ const renderSentiment = () => {
     /> )
       }
 
-      if (element[1] < -.5) {
+      if (element[2].neg > 0) {
       return (
     <Chip
     className ={classes.chip}
@@ -122,7 +121,7 @@ const renderSentiment = () => {
     /> 
       )
       }
-      if(0 > element[1] > -.5) {
+      if(element[2].neu > 0) {
         return (
       <Chip
       className ={classes.chip}
@@ -133,6 +132,16 @@ const renderSentiment = () => {
       /> 
         )
         }
+        else{
+          return(
+        <Chip
+        className ={classes.chip}
+        label = {element[0]}
+        clickable
+        style={{backgroundColor: '#2196f3' }}
+        key={index}
+        /> 
+    )} 
       })}
       </div>
       )

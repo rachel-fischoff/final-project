@@ -46,41 +46,39 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NGramExampleResults(props) {
 
-    const [dataset, setDataset] = useState({ngram: [], score: [], totalwords: []})
+    const [dataset, setDataset] = useState({ngrams: [], scores: [{ 'compound': 0, 'neg': 0, 'neu': 0, 'pos': 0}]})
 
     const classes = useStyles ();
 
     useEffect(() => {
         setDataset(props.dataset)
+        console.log(props.dataset)
     }, []);
 
     const renderNgramChips = () => {
     
 
-      const combinedArray = dataset.ngram.map((item, index) => {
-          return [item, dataset.score[index], dataset.totalwords[index]];
+      const combinedArray = dataset.ngrams.map((item, index) => {
+          return [item, dataset.scores[index]];
           })
       
        const posNgrams = []
        const negNgrams = []
        const neuNgrams = []
-
-       console.log(combinedArray, 'combinedArray')
-
+       const otherNgrams = []
+  
 
   
-       const avg4 = () => dataset.score.reduce((a, x) => a + x, 0) / dataset.score.length
-       console.log(avg4())
-  
-  
-       //  Line 86:40:  Expected to return a value in arrow function  array-callback-return
-      combinedArray.map((element, index) => {
-          if(combinedArray[index][1] > 0) 
+        combinedArray.map((element, index) => {
+          console.log(element)
+          if(combinedArray[index][1].pos > 0) 
           posNgrams.push(element)
-          else if (combinedArray[index][1] < -.5)
+          else if (combinedArray[index][1].neg > 0)
           negNgrams.push(element)
-          else
+          else if((combinedArray[index][1].neu > 0))
           neuNgrams.push (element)
+          else
+          otherNgrams.push(element)
              
       })
   
@@ -91,14 +89,15 @@ export default function NGramExampleResults(props) {
             <List >
               <ListItem className = {classes.list}>
                   <Typography> positive </Typography>
-        
-                 {posNgrams.map(element =>
+                  <br/>
+                 {posNgrams.map((element, index) =>
+              
                  <Chip
                  className ={classes.chip}
                  label = {element[0]}
                  clickable
                  style={{backgroundColor:'#4caf50'}}
-                 key={element[1]}
+                 key={index}
                  /> 
                
                  )}
@@ -108,12 +107,12 @@ export default function NGramExampleResults(props) {
                 <ListItem className = {classes.list}>
                 <Typography> neutral </Typography>
                   <br/>
-                 {neuNgrams.map(element => 
+                 {neuNgrams.map((element, index) => 
                  <Chip
                  className ={classes.chip}
                  label = {element[0]}
                  clickable
-                 key={element[1]}
+                 key={index}
                  style={{backgroundColor:'#ffee58'}}
               
                  /> )}
@@ -122,22 +121,33 @@ export default function NGramExampleResults(props) {
                   <ListItem className = {classes.list}>
                   <Typography> negative </Typography>
                   <br/>
-                 {negNgrams.map(element =>
+                 {negNgrams.map((element, index) =>
                  <Chip
                  className ={classes.chip}
                  label = {element[0]}
                  clickable
                  style={{backgroundColor: '#d32f2f' }}
-                 key={element[1]}
+                 key={index}
                  /> )}
                 </ListItem>
   
               <Divider  component="li"/>
+              <Typography> words not counted </Typography>
+              <br/>
+              {otherNgrams.map((element, index) =>
+                 <Chip
+                 className ={classes.chip}
+                 label = {element[0]}
+                 clickable
+                 style={{backgroundColor: '#2196f3' }}
+                 key={index}
+                 /> )}
             </List>
           </CardContent>
         </div>
         )
       }
+  
   
   
   
