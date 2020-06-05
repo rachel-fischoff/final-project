@@ -1,0 +1,42 @@
+ngrams,total_words
+come,1
+spread,1
+one,1
+without,1
+no,1
+love,1
+leaving,1
+happier,1
+go,1
+let,1
+to,1
+everywhere,1
+ever,1
+you,1
+spread love,2
+come to,2
+one ever,2
+no one,2
+ever come,2
+go let,2
+you go,2
+without leaving,2
+let no,2
+to you,2
+leaving happier,2
+everywhere you,2
+love everywhere,2
+you without,2
+you go let,3
+to you without,3
+without leaving happier,3
+love everywhere you,3
+one ever come,3
+no one ever,3
+let no one,3
+go let no,3
+everywhere you go,3
+ever come to,3
+come to you,3
+spread love everywhere,3
+you without leaving,3

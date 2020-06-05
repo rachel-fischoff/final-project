@@ -3,6 +3,10 @@ from flask_cors import CORS
 import json, csv, re
 import pandas as pd 
 from api.tf_ngrams import run_ngrams
+from api.text_blob_vader import run_vader
+import nltk
+nltk.download('vader_lexicon')
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 # import twitter [to be added for when i implement the twitter functions]
 
@@ -20,6 +24,27 @@ def get_examples ():
     dict = df.to_dict(orient='list')
     print(dict, 'examples')
     return jsonify(dict)
+
+
+
+
+#defining the post route for the text submitted by the user 
+@app.route('/home2', methods = ['GET'])
+
+#route handler function 
+def get_vader (): 
+    run_vader()
+    
+    vader = SentimentIntensityAnalyzer ()
+
+    #use pandas to read the csv
+    df = pd.read_csv('ngram_vader.csv', engine='python')
+    # # I need to remove those double quotes 
+    df['scores'] = df['ngrams'].apply(lambda ngrams: vader.polarity_scores(ngrams))
+    # # df['score'] = df['score'].str.strip('"')
+    df = df.to_dict(orient='list')
+    print(df)
+    return jsonify(df)
 
 
 #defining the get route for each word and each of their score 

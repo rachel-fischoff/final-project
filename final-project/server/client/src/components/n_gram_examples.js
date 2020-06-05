@@ -52,7 +52,7 @@ export default function NGramExampleResults(props) {
 
     useEffect(() => {
         setDataset(props.dataset)
-    }, [props.dataset]);
+    }, []);
 
     const renderNgramChips = () => {
     

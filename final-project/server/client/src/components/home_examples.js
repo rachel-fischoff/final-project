@@ -72,8 +72,10 @@ const useStyles = makeStyles((theme) => ({
     };
 
     const fetchData = async () => {
-      const response = await axios.get('http://localhost:5000/home');
+      const response = await axios.get('http://localhost:5000/home2');
+      console.log(response.data)
       setDataset(response.data) 
+    
     }
 
   const fetchWords =  async () => {
@@ -82,8 +84,9 @@ const useStyles = makeStyles((theme) => ({
   }
 
 
-    useEffect(() => {
+  useEffect(() => {
       fetchData()
+      console.log('I am working!')
   }, []);
 
 
@@ -94,7 +97,7 @@ const renderSentiment = () => {
       return (
     <div>
     {words.map((element, index)  => { 
-      console.log(element)
+   
               
       if(element[1] > 0) {
 
