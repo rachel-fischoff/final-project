@@ -3,15 +3,15 @@ from flask_cors import CORS
 import json, csv, re
 import pandas as pd 
 from api.tf_ngrams import run_ngrams
-from api.text_blob_vader import run_vader
+from api.vader import run_vader
 import nltk
-nltk.download('vader_lexicon')
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 # import twitter [to be added for when i implement the twitter functions]
 
 app = Flask(__name__)
 CORS(app)
+vader = SentimentIntensityAnalyzer ()
 
 #defining the post route for the text submitted by the user 
 @app.route('/home', methods = ['GET'])
@@ -34,8 +34,6 @@ def get_examples ():
 #route handler function 
 def get_vader (): 
     run_vader()
-    
-    vader = SentimentIntensityAnalyzer ()
 
     #use pandas to read the csv
     df = pd.read_csv('ngram_vader.csv', engine='python')
@@ -90,10 +88,9 @@ def anaylze_text ():
 
 #route handler function 
 def return_words ():
-
-    #run the model to return trigrams, bigrams and unigrams with sentiment score
-    run_ngrams()
     
+    run_vader()
+
     #open the text file 
     with open ('text.txt', 'r') as infile:
         text_analysis = [infile.read()]
@@ -104,6 +101,8 @@ def return_words ():
     print(ordered_list, 'ordered_list')
     #use pandas to read the csv
     df = pd.read_csv('words.csv')
+    df['scores'] = df['ngrams'].apply(lambda ngrams: vader.polarity_scores(ngrams))
+
     scored_list = df.values.tolist()
     print(scored_list, 'list')
 

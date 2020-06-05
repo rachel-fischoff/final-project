@@ -75,7 +75,8 @@ const useStyles = makeStyles((theme) => ({
 
     const fetchData = async () => {
       const res = await axios.get('http://localhost:5000/words');
-      setDataset(res.data);   
+      setDataset(res.data);
+      console.log(res.data)   
       console.log(dataset, 'text results word by word')
   }
 
@@ -101,9 +102,10 @@ const useStyles = makeStyles((theme) => ({
           
                     
 
-                    {dataset.map((element)  => { 
+                    {dataset.map((element, index)  => { 
+                      console.log(element)
                     
-                      if(element[1] > 0) {
+                      if(element[2].pos > 0) {
            
                       return (
                     <Chip
@@ -111,29 +113,29 @@ const useStyles = makeStyles((theme) => ({
                     label = {element[0]}
                     clickable
                     style={{backgroundColor:'#4caf50'}}
-                    key={element[1]}
+                    key={index}
                     /> )
                       }
                 
-                      if (element[1] < -.5) {
+                      if (element[2].neu > 0) {
                       return (
                     <Chip
                     className ={classes.chip}
                     label = {element[0]}
                     clickable
-                    style={{backgroundColor:'#d32f2f'}}
-                    key={element[1]}
+                    style={{backgroundColor:'#ffee58'}}
+                    key={index}
                     /> 
                       )
                       }
-                      if(0 > element[1] > -.5) {
+                      if(element[2].neg > 0) {
                         return (
                       <Chip
                       className ={classes.chip}
                       label = {element[0]}
                       clickable
-                      key={element[1]}
-                      style={{backgroundColor:'#ffee58'}}
+                      key={index}
+                      style={{backgroundColor:'#d32f2f'}}
                       /> 
                         )
                         }
