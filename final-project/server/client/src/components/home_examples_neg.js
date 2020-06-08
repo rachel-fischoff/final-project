@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-  export default function HomeExamples() {
+  export default function HomeNegExamples() {
   
     const classes = useStyles();
 
@@ -72,14 +72,15 @@ const useStyles = makeStyles((theme) => ({
     };
 
     const fetchData = async () => {
-      const response = await axios.get('http://localhost:5000/home2');
-      console.log(response.data)
+      const response = await axios.get('http://localhost:5000/home/neg');
+
       setDataset(response.data) 
+      console.log(response.data)
     
     }
 
   const fetchWords =  async () => {
-    const response = await axios.get('http://localhost:5000/home/words');
+    const response = await axios.get('http://localhost:5000/home/neg/words');
     setWords(response.data) 
     console.log(response.data)
   }
@@ -158,7 +159,8 @@ const renderSentiment = () => {
         <Paper className={classes.paper} >
              <Typography className= {classes.typography} variant="h4">
               
-              Spread love everywhere you go. Let no one ever come to you without leaving happier -Mother Teresa 
+             If you watch Fake News @CNN or MSDNC, you would think that the killers, terrorists, arsonists, anarchists, thugs, hoodlums, looters, ANTIFA & others, would be the nicest, kindest most wonderful people in the Whole Wide World. No, they are what they are - very bad for our Country!" - Donald Trump
+                      
               <br/> 
               <Button
                       variant="contained"
@@ -170,7 +172,7 @@ const renderSentiment = () => {
                       onClick={fetchWords}
       
                       >
-                      Click Me
+                      Show Sentiment
                 </Button> 
 
                 {renderSentiment()}
@@ -197,6 +199,7 @@ const renderSentiment = () => {
           <NGramExampleResults dataset = {dataset} />
         </Collapse>     
         </Paper>
+        
       </Box>
       </div>
 )
@@ -204,6 +207,3 @@ const renderSentiment = () => {
 
 
 }
-
-
-  

@@ -8,7 +8,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 import numpy as np
 import pandas as pd
 import csv, json, re 
-
+import sklearn 
 from sklearn.feature_extraction.text import CountVectorizer
 
 def run_ngrams():

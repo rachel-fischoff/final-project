@@ -1,7 +1,8 @@
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import NavBar from './nav_bar'
-import HomeExamples from './home_examples'
+import HomePosiExamples from './home_examples_pos'
+import HomeNegExamples from './home_examples_neg'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +50,8 @@ const useStyles = makeStyles((theme) => ({
              
               <br/>
 
-              <HomeExamples/>
+              <HomePosiExamples/>
+              <HomeNegExamples/>
             </div>
         )
     }

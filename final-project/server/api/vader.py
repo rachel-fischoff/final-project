@@ -1,6 +1,7 @@
 import nltk
 nltk.download('vader_lexicon')
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import sklearn
 from sklearn.feature_extraction.text import CountVectorizer
 import csv
 import pandas as pd
@@ -16,6 +17,7 @@ def run_vader():
     vectorizer = CountVectorizer(analyzer='word', ngram_range=(1, 4), token_pattern=r'\b\w+\b', min_df=1, stop_words=["@"])
     X = vectorizer.fit_transform(text_analysis)
     ngrams = vectorizer.get_feature_names()
+    print(X.toarray(), 'x to array')
 
 
     # ngrams_vader = []
