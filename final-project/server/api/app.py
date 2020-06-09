@@ -2,10 +2,12 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import json, csv, re
 import pandas as pd 
-from api.tf_ngrams import run_ngrams
-from api.vader import run_vader
 import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import sklearn
+from sklearn.feature_extraction.text import CountVectorizer
+from api.vader import run_vader
+
 
 # import twitter [to be added for when i implement the twitter functions]
 
@@ -96,7 +98,6 @@ def return_neg_words ():
     #adds total word column to the csv
     df = pd.read_csv('words_sample_2.csv')
 
-
     new_words = {
         'thugs': -3.4,
         'hoodlums': -3.4,
@@ -113,7 +114,7 @@ def return_neg_words ():
 
         print(text_analysis, text_analysis[0], 'txt analysis + text analysis [0]')
         #read warning 
-        ordered_list = re.sub("[^\w]", " ",  text_analysis[0].lower()).split()
+        ordered_list = re.sub(r"[^\w]", " ",  text_analysis[0].lower()).split()
         print(ordered_list, 'ordered_list')
 
         #use pandas to read the csv
@@ -147,22 +148,25 @@ def return_neg_words ():
 def anaylze_text (): 
     text_data = request.get_json()
 
-    print(text_data)
-
     #writes data to text file for Natural Language Processing and sentiment analysis
     with open ('text.txt', 'w') as outfile:
         json.dump(text_data['text'], outfile)
-    return text_data
+        return text_data
 
+        print(text_data, 'text data from post request')
 
 #defining the get route for each word and each of their score 
 @app.route('/words', methods = ['GET'])
-
 #route handler function 
+
 def return_words ():
-    
     run_vader()
 
+    #open the text file 
+    with open ('text.txt', 'r') as infile:
+        text_analysis = [infile.read()]
+        print(text_analysis[0], 'text  - in the return words fnc')
+            
     #adds total word column to the csv
     df = pd.read_csv('ngram_vader.csv')
     df['total_words'] = [len(x.split()) for x in df['ngrams'].tolist()]
@@ -176,37 +180,32 @@ def return_words ():
     df = df.loc[df['total_words'] == 1]
     df = df.to_csv(r'words.csv', index = False, header=True)
 
-    #open the text file 
-    with open ('text.txt', 'r') as infile:
-        text_analysis = [infile.read()]
+    #order the list
+    ordered_list = re.sub(r"[^\w]", " ",  text_analysis[0].lower()).split()
+    print(ordered_list, 'ordered_list')
 
-        print(text_analysis, text_analysis[0], 'txt analysis + text analysis [0]')
-        #read warning 
-        ordered_list = re.sub("[^\w]", " ",  text_analysis[0].lower()).split()
-        print(ordered_list, 'ordered_list')
+    #use pandas to read the csv
+    df = pd.read_csv('words.csv')
+    df['scores'] = df['ngrams'].apply(lambda ngrams: vader.polarity_scores(ngrams))
 
-        #use pandas to read the csv
-        df = pd.read_csv('words.csv')
-        df['scores'] = df['ngrams'].apply(lambda ngrams: vader.polarity_scores(ngrams))
+    scored_list = df.values.tolist()
+    print(scored_list, 'list')
 
-        scored_list = df.values.tolist()
-        print(scored_list, 'list')
+    # printing original list 
+    print ("The original list is : " + str(scored_list)) 
+                
+    # printing sort order list 
+    print ("The sort order list is : " + str(ordered_list)) 
+                
+    # using list comprehension 
+    # to sort according to other list  
+    res = [tuple for x in ordered_list for tuple in scored_list if tuple[0] == x] 
+                
+    # printing result 
+    print ("The sorted list is : " + str(res)) 
 
-        # printing original list 
-        print ("The original list is : " + str(scored_list)) 
-        
-        # printing sort order list 
-        print ("The sort order list is : " + str(ordered_list)) 
-        
-        # using list comprehension 
-        # to sort according to other list  
-        res = [tuple for x in ordered_list for tuple in scored_list if tuple[0] == x] 
-        
-        # printing result 
-        print ("The sorted list is : " + str(res)) 
-
-        return jsonify(res)
-        
+    return jsonify(res)
+                
 
 
 #defining the get route for the ngrams and each of their score 

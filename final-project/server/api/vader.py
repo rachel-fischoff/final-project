@@ -7,7 +7,6 @@ import csv
 import pandas as pd
 
 def run_vader():
-    # vader = SentimentIntensityAnalyzer ()
 
     #open the text file 
     with open ('text.txt', 'r') as infile:
@@ -26,7 +25,6 @@ def run_vader():
     #     ngrams_vader.append({'ngram': ngram, 'score':score})
     #     print(ngrams_vader, 'array')
     #     return ngrams_vader
-
     # df['scores'] = df['ngram'].apply(lambda ngram: vader.polarity_scores(ngram))
     # df['compound']  = df['scores'].apply(lambda score_dict: score_dict['compound'])
     # df['comp_score'] = df['compound'].apply(lambda c: 'pos' if c >=0 else 'neg')

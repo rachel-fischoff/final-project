@@ -1,18 +1,21 @@
 import React from 'react';
-import {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper'
-import clsx from 'clsx'
+import Paper from '@material-ui/core/Paper';
+import clsx from 'clsx';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Box from '@material-ui/core/Box'
-import NavBar from './nav_bar'
-import NGramTextResults from './n_gram_fetch'
-import axios from 'axios'
-import Chip from '@material-ui/core/Chip'
-
+import Box from '@material-ui/core/Box';
+import NavBar from './nav_bar';
+import NGramTextResults from './n_gram_fetch';
+import axios from 'axios';
+import Chip from '@material-ui/core/Chip';
+import Button from '@material-ui/core/Button'
+import {Link} from 'react-router-dom'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import HomeIcon from '@material-ui/icons/Home';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -176,6 +179,34 @@ const useStyles = makeStyles((theme) => ({
               </Collapse>     
               </Paper>
             </Box>
+
+
+
+
+            <Link to={{ pathname: "/text" }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  size="large"
+                  type = "submit"
+                  startIcon={<ArrowBackIcon>ArrowBackIcon</ArrowBackIcon>}
+                    >
+                    Go Back 
+                  </Button> 
+                </Link>  
+                <Link to={{ pathname: "/home" }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  size="large"
+                  type = "submit"
+                  startIcon={<HomeIcon>HomeIcon</HomeIcon>}
+                    >
+                    Home 
+                    </Button> 
+                  </Link>  
             </div>
    )
     

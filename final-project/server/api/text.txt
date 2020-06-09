@@ -1,1 +1,1 @@
-"Please, let me finish this project this week! "
+"I am excited to finish my sentiment analysis app! "

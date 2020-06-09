@@ -1,26 +1,27 @@
 ngrams,total_words
-finish,1
-this,1
-project,1
-me,1
-please,1
-week,1
-let,1
-this project,2
-finish this,2
-project this,2
-please let,2
-this week,2
-let me,2
-me finish,2
-me finish this,3
-finish this project,3
-project this week,3
-let me finish,3
-this project this,3
-please let me,3
-please let me finish,4
-finish this project this,4
-let me finish this,4
-this project this week,4
-me finish this project,4
+and,1
+the,1
+weather,1
+sad,1
+is,1
+gloomy,1
+today,1
+dark,1
+gloomy today,2
+dark sad,2
+sad and,2
+and gloomy,2
+the weather,2
+weather is,2
+is dark,2
+dark sad and,3
+the weather is,3
+is dark sad,3
+weather is dark,3
+sad and gloomy,3
+and gloomy today,3
+is dark sad and,4
+sad and gloomy today,4
+dark sad and gloomy,4
+the weather is dark,4
+weather is dark sad,4
