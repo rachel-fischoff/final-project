@@ -3,7 +3,6 @@ import {useEffect, useState} from 'react';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import axios from 'axios'
 import Chip from '@material-ui/core/Chip';
 import Divider from '@material-ui/core/Divider'
 import List from '@material-ui/core/List';
@@ -53,7 +52,7 @@ export default function NGramExampleResults(props) {
     useEffect(() => {
         setDataset(props.dataset)
         console.log(props.dataset)
-    }, []);
+    }, [props.dataset]);
 
     const renderNgramChips = () => {
     

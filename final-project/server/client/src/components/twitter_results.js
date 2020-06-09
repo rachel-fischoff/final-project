@@ -77,7 +77,7 @@ useEffect(() => {
                 <Typography color="textPrimary" fontWeight="fontWeightBold"  variant="h6">
                 {term}
                 <br/>
-                put top tweets and sentiment per word with colored chips
+                Streaming Twitter Sentiment Analysis Coming Soon 
                 </Typography>
                
                 <Typography paragraph>
@@ -98,7 +98,7 @@ useEffect(() => {
                 <ExpandMoreIcon className={classes.moreIcon}/>
                 </IconButton>
                 </Typography>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <NGramTwitterResults term = {term}/>
             </Collapse>     
             </Paper>

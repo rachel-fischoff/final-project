@@ -53,7 +53,7 @@ export default function SearchBarTwitter () {
                 <div className={classes.root} >
                 <h2>Find Tweets by Subject</h2>
         
-                    <OutlinedInput id="component-outlined 2" value={term} onChange={handleChange}/>
+                    <OutlinedInput id="component-outlined 2"  placeholder = "Twitter Coming Soon" value={term} onChange={handleChange}/>
                     <Link to={{ pathname: "/twitter/sentiment", state: {term: term}}}>
                       <Button
                         variant="contained"

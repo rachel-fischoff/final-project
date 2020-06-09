@@ -7,7 +7,7 @@ import csv
 import pandas as pd
 
 def run_vader():
-    vader = SentimentIntensityAnalyzer ()
+    # vader = SentimentIntensityAnalyzer ()
 
     #open the text file 
     with open ('text.txt', 'r') as infile:

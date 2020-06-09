@@ -32,6 +32,17 @@ def get_pos_examples ():
 #route handler function 
 def get_neg_examples (): 
 
+
+    new_words = {
+        'thugs': -3.4,
+        'hoodlums': -3.4,
+        'looters': -3.4,
+        'arsonists': -2.9,
+        'kindest': 3.0
+    }
+    vader.lexicon.update(new_words)
+
+
    #use pandas to read the csv
     df = pd.read_csv('sample_text_2.csv')
     df['scores'] = df['ngrams'].apply(lambda ngrams: vader.polarity_scores(ngrams))
@@ -84,6 +95,17 @@ def return_pos_words ():
 def return_neg_words ():
     #adds total word column to the csv
     df = pd.read_csv('words_sample_2.csv')
+
+
+    new_words = {
+        'thugs': -3.4,
+        'hoodlums': -3.4,
+        'looters': -3.4,
+        'arsonists': -2.9,
+        'kindest': 3.0
+    }
+    vader.lexicon.update(new_words)
+
 
     #open the text file 
     with open ('sample_text_2.txt', 'r') as infile:
