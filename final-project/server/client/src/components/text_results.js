@@ -66,9 +66,12 @@ const useStyles = makeStyles((theme) => ({
   
     const classes = useStyles();
     const inputValue = props.location.state.inputValue
+    console.log(props)
 
     const [expanded, setExpanded] = useState(false)
-    const [dataset, setDataset] = useState([])
+    const [words, setWords] = useState([])
+    const [dataset, setDataset] = useState({ngrams: [], scores: [{ 'compound': 0, 'neg': 0, 'neu': 0, 'pos': 0}], total_words: []})
+
  
     const handleExpandClick = () => {
 
@@ -77,15 +80,26 @@ const useStyles = makeStyles((theme) => ({
   
 
     const fetchData = async () => {
-      const res = await axios.get('http://localhost:5000/words');
-      setDataset(res.data);
-      console.log(res.data)   
-      console.log(dataset, 'text results word by word')
-  }
+      axios.post('http://localhost:5000/text', {
+          'text': inputValue
+        })
+        .then(response => console.log(response.data))
+        .then(data => {
+          axios.get('http://localhost:5000/words')
+            .then(response => setWords(response.data))
+            .then(data => {
+              axios.get('http://localhost:5000/ngrams')
+                .then(response => setDataset(response.data))
+            })
+        })
+        .catch(error => console.log(error));
 
+    }
+  
   useEffect(() => {
-    fetchData();
+      fetchData();
   }, []);
+
 
   // Figure out how to map from dataset
    const renderText = () => (
@@ -105,9 +119,7 @@ const useStyles = makeStyles((theme) => ({
           
                     
 
-                    {dataset.map((element, index)  => { 
-                      console.log(element)
-                    
+                    {words.map((element, index)  => { 
                       if(element[2].pos > 0) {
            
                       return (
@@ -175,7 +187,7 @@ const useStyles = makeStyles((theme) => ({
                 </IconButton>
                 </Typography>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <NGramTextResults />
+                <NGramTextResults dataset ={dataset}/>
               </Collapse>     
               </Paper>
             </Box>

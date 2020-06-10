@@ -66,7 +66,7 @@ def return_pos_words ():
 
         print(text_analysis, text_analysis[0], 'txt analysis + text analysis [0]')
         #read warning 
-        ordered_list = re.sub("[^\w]", " ",  text_analysis[0].lower()).split()
+        ordered_list = re.sub(r"[^\w]", " ",  text_analysis[0].lower()).split()
         print(ordered_list, 'ordered_list')
 
         #use pandas to read the csv
@@ -137,7 +137,7 @@ def return_neg_words ():
         # printing result 
         print ("The sorted list is : " + str(res)) 
 
-        return jsonify(res)
+    return jsonify(res)
         
 
     
@@ -148,63 +148,76 @@ def return_neg_words ():
 def anaylze_text (): 
     text_data = request.get_json()
 
-    #writes data to text file for Natural Language Processing and sentiment analysis
+    #writes data to text file sentiment analysis
     with open ('text.txt', 'w') as outfile:
         json.dump(text_data['text'], outfile)
         return text_data
 
-        print(text_data, 'text data from post request')
+    print(text_data, 'text data from post request')
 
 #defining the get route for each word and each of their score 
 @app.route('/words', methods = ['GET'])
+
 #route handler function 
-
 def return_words ():
-    run_vader()
+        #open the text file 
+        with open ('text.txt', 'r') as infile:
+            text_analysis = [infile.read()]
+            print(text_analysis[0], 'text  - in the return words fnc')
 
-    #open the text file 
-    with open ('text.txt', 'r') as infile:
-        text_analysis = [infile.read()]
-        print(text_analysis[0], 'text  - in the return words fnc')
+        vectorizer = CountVectorizer(analyzer='word', ngram_range=(1, 4), token_pattern=r'\b\w+\b', min_df=1, stop_words=None)
+        X = vectorizer.fit_transform(text_analysis)
+        ngrams = vectorizer.get_feature_names()
+        print(X.toarray(), 'x to array')
+    
+        #write ngrams to csv
+        with open ('ngram_vader.csv', mode='w', newline='') as csv_file:
+            fieldnames = ['ngrams']
+            ngram_writer = csv.DictWriter(csv_file, delimiter=',', fieldnames=fieldnames)
+            ngram_writer.writeheader()
+
+            for ngram in ngrams:
             
-    #adds total word column to the csv
-    df = pd.read_csv('ngram_vader.csv')
-    df['total_words'] = [len(x.split()) for x in df['ngrams'].tolist()]
-    #sorts values by total words 
-    df = df.sort_values(by=['total_words'])
-    #writes the sorted column to the ngram.csv
-    df = df.to_csv(r'ngram_vader.csv', index = False, header=True)
+                ngram_writer.writerow({'ngrams': ngram})  
 
-    #create a new csv with the singular words and scores only - 
-    df = pd.read_csv('ngram_vader.csv')
-    df = df.loc[df['total_words'] == 1]
-    df = df.to_csv(r'words.csv', index = False, header=True)
+        #adds total word column to the csv
+        df = pd.read_csv('ngram_vader.csv')
+        df['total_words'] = [len(x.split()) for x in df['ngrams'].tolist()]
+        #sorts values by total words 
+        df = df.sort_values(by=['total_words'])
+        #writes the sorted column to the ngram.csv
+        df = df.to_csv(r'ngram_vader.csv', index = False, header=True)
 
-    #order the list
-    ordered_list = re.sub(r"[^\w]", " ",  text_analysis[0].lower()).split()
-    print(ordered_list, 'ordered_list')
+        #create a new csv with the singular words and scores only - 
+        df = pd.read_csv('ngram_vader.csv')
+        df = df.loc[df['total_words'] == 1]
+        df = df.to_csv(r'words.csv', index = False, header=True)
 
-    #use pandas to read the csv
-    df = pd.read_csv('words.csv')
-    df['scores'] = df['ngrams'].apply(lambda ngrams: vader.polarity_scores(ngrams))
+        #order the list
+        ordered_list = re.sub(r"[^\w]", " ",  text_analysis[0].lower()).split()
+        # print(ordered_list, 'ordered_list')
 
-    scored_list = df.values.tolist()
-    print(scored_list, 'list')
+        #use pandas to read the csv
+        df = pd.read_csv('words.csv')
+        df['scores'] = df['ngrams'].apply(lambda ngrams: vader.polarity_scores(ngrams))
 
-    # printing original list 
-    print ("The original list is : " + str(scored_list)) 
-                
-    # printing sort order list 
-    print ("The sort order list is : " + str(ordered_list)) 
-                
-    # using list comprehension 
-    # to sort according to other list  
-    res = [tuple for x in ordered_list for tuple in scored_list if tuple[0] == x] 
-                
-    # printing result 
-    print ("The sorted list is : " + str(res)) 
+        scored_list = df.values.tolist()
+        # print(scored_list, 'list')
 
-    return jsonify(res)
+        # # printing original list 
+        # print ("The original list is : " + str(scored_list)) 
+                    
+        # # printing sort order list 
+        # print ("The sort order list is : " + str(ordered_list)) 
+                    
+        # using list comprehension 
+        # to sort according to other list  
+        res = [tuple for x in ordered_list for tuple in scored_list if tuple[0] == x] 
+                    
+        # printing result 
+        print ("The sorted list is : " + str(res)) 
+
+        return jsonify(res)
                 
 
 
