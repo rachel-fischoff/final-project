@@ -1,10 +1,12 @@
 import nltk
-nltk.download('vader_lexicon')
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import sklearn
 from sklearn.feature_extraction.text import CountVectorizer
 import csv
 import pandas as pd
+nltk.download('vader_lexicon')
+
+
 
 def run_vader():
 
