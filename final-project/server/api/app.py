@@ -1,19 +1,21 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import json, csv, re
-import pandas as pd 
+import pandas as pd
 import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import sklearn
 from sklearn.feature_extraction.text import CountVectorizer
 from api.vader import run_vader
+import tweepy
+import config
 
 
 # import twitter [to be added for when i implement the twitter functions]
 
 app = Flask(__name__)
 CORS(app)
-vader = SentimentIntensityAnalyzer ()
+vader = SentimentIntensityAnalyzer()
 
 #defining the post route for the text submitted by the user 
 @app.route('/home/pos', methods = ['GET'])
@@ -237,18 +239,23 @@ def return_ngrams ():
     
 
 
+# @app.route('/twitter', methods = ['GET'])
+
+# #route handling 
+# def return_tweets(query):
+#     # Authenticate to Twitter
+#     auth = tweepy.AppAuthHandler(config.api_key, config.api_secret)
+#     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
+    
+#     # add parameteres rpp=10, lang = "en"
+#     for tweet in tweepy.Cursor(api.search, lang='en', q=query).items(10):
+#         return jsonify(
+
+        
+#         'created at: ', tweet.created_at, 'tweet content ' + tweet.text, 
+#         'profile pic url ' + tweet.user.profile_image_url_https, 'user name ' +
+#         tweet.user.name, 'user location ' + tweet.user.location, 'screen name '
+#         + tweet.user.screen_name)
+
 if __name__ == '__main__':
     app.run(debug = True, port=5000) 
-
-
-
-# TO DO add the twitter api component 
-# api = twitter.Api(consumer_key=[consumer key],
-#                   consumer_secret=[consumer secret],
-#                   access_token_key=[access token],
-#                   access_token_secret=[access token secret])
-
-#defining the twitter route 
-# @app.route('/twitter', methods = ['GET', 'POST'])
-#route handler function
-# def get_tweets():

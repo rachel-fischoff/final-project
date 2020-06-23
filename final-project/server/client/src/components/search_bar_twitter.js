@@ -35,15 +35,9 @@ export default function SearchBarTwitter () {
   
 
     const fetchData = async () => {
-
-      console.log('put twitter api info')
-      // const response = await axios.post('http://localhost:5000/text', 
-       
-      //   {'text': inputValue}
-      // )
-      // .then(function (response) {
-      //   console.log(response);
-      // })
+        axios.get('http://localhost:5000/twitter', {
+          })
+          .then(response => console.log(response.data))
      
     }
 
