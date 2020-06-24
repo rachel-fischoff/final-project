@@ -11,6 +11,7 @@ import Chip from '@material-ui/core/Chip'
 import Box from '@material-ui/core/Box'
 import NavBar from './nav_bar'
 import NGramTwitterResults from './n_gram_twitter'
+import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -48,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
   export default function TwitterResults(props) {
   
   const classes = useStyles();
+  console.log(props)
   const term = props.location.state.term
 
   const [expanded, setExpanded] = useState(false);
@@ -57,10 +59,13 @@ const useStyles = makeStyles((theme) => ({
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
   const fetchData = async () => {
-  //   const res = await axios.get('http://localhost:5000/words');
-    console.log('to put twitter info');
-  //   setDataset(res.data);   
+    axios.post('http://localhost:5000/twitter', {
+      'term': term
+      },console.log(term))
+      .then(response => console.log(response.data))
+ 
 }
 
 useEffect(() => {

@@ -8,7 +8,8 @@ import sklearn
 from sklearn.feature_extraction.text import CountVectorizer
 from api.vader import run_vader
 import tweepy
-import config
+# import config
+import api.credentials as credential
 
 
 # import twitter [to be added for when i implement the twitter functions]
@@ -17,27 +18,25 @@ app = Flask(__name__)
 CORS(app)
 vader = SentimentIntensityAnalyzer()
 
-#defining the post route for the text submitted by the user 
-@app.route('/home/pos', methods = ['GET'])
-
-#route handler function 
-def get_pos_examples (): 
-
-   #use pandas to read the csv
+# defining the post route for the text submitted by the user
+@app.route('/home/pos', methods=['GET'])
+# route handler function
+def get_pos_examples():
+    # use pandas to read the csv
     df = pd.read_csv('sample_text_1.csv')
-    df['scores'] = df['ngrams'].apply(lambda ngrams: vader.polarity_scores(ngrams))
+    df['scores'] = df['ngrams'].apply(lambda
+    ngrams: vader.polarity_scores(ngrams))
     df = df.to_dict(orient='list')
     return jsonify(df)
 
 
-#defining the post route for the text submitted by the user 
+# defining the post route for the text submitted by the user 
 @app.route('/home/neg', methods = ['GET'])
 
 #route handler function 
 def get_neg_examples (): 
 
-
-    new_words = {
+    new_words={
         'thugs': -3.4,
         'hoodlums': -3.4,
         'looters': -3.4,
@@ -239,23 +238,24 @@ def return_ngrams ():
     
 
 
-# @app.route('/twitter', methods = ['GET'])
+@app.route('/twitter', methods = ['GET', 'POST'])
 
-# #route handling 
-# def return_tweets(query):
-#     # Authenticate to Twitter
-#     auth = tweepy.AppAuthHandler(config.api_key, config.api_secret)
-#     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
+#route handling 
+def return_tweets():
+    query = request.get_json()
+    # Authenticate to Twitter
+    auth = tweepy.AppAuthHandler(credential.api_key, credential.api_secret)
+    api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
     
-#     # add parameteres rpp=10, lang = "en"
-#     for tweet in tweepy.Cursor(api.search, lang='en', q=query).items(10):
-#         return jsonify(
-
+    # add parameteres rpp=10, lang = "en"
+    for tweet in tweepy.Cursor(api.search, lang='en', q=query).items(10):
+        return jsonify(
+            [{'text': tweet.text}, {'profile_pic': tweet.user.profile_image_url}, {'user_screen_name': tweet.user.screen_name}])
         
-#         'created at: ', tweet.created_at, 'tweet content ' + tweet.text, 
-#         'profile pic url ' + tweet.user.profile_image_url_https, 'user name ' +
-#         tweet.user.name, 'user location ' + tweet.user.location, 'screen name '
-#         + tweet.user.screen_name)
+    #     # 'created at: ', tweet.created_at, 'tweet content ' + tweet.text, 
+    #     # 'profile pic url ' + tweet.user.profile_image_url_https, 'user name ' +
+    #     # tweet.user.name, 'user location ' + tweet.user.location, 'screen name '
+        # + tweet.user.screen_name)
 
 if __name__ == '__main__':
     app.run(debug = True, port=5000) 

@@ -34,12 +34,13 @@ export default function SearchBarTwitter () {
     };
   
 
-    const fetchData = async () => {
-        axios.get('http://localhost:5000/twitter', {
-          })
-          .then(response => console.log(response.data))
+    // const fetchData = async () => {
+    //     axios.post('http://localhost:5000/twitter', {
+    //       'term': term
+    //       },console.log(term))
+    //       .then(response => console.log(response.data))
      
-    }
+    // }
 
       return ( 
           <div>
@@ -56,7 +57,7 @@ export default function SearchBarTwitter () {
                         size="large"
                         type = "submit"
                         startIcon={<InputIcon>InputIcon</InputIcon>}
-                        onClick={fetchData}
+                        // onClick={fetchData}
         
                         >
                         Predict Sentiment
