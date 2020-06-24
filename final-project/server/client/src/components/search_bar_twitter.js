@@ -33,15 +33,6 @@ export default function SearchBarTwitter () {
       setTerm(event.target.value);
     };
   
-
-    // const fetchData = async () => {
-    //     axios.post('http://localhost:5000/twitter', {
-    //       'term': term
-    //       },console.log(term))
-    //       .then(response => console.log(response.data))
-     
-    // }
-
       return ( 
           <div>
             <NavBar/>

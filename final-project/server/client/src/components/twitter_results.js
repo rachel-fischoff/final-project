@@ -7,6 +7,7 @@ import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Avatar from '@material-ui/core/Avatar'
 import Chip from '@material-ui/core/Chip'
 import Box from '@material-ui/core/Box'
 import NavBar from './nav_bar'
@@ -53,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   const term = props.location.state.term
 
   const [expanded, setExpanded] = useState(false);
-  const [dataset, setDataset] = useState([])
+  const [dataset, setDataset] = useState([{'created_at': '', 'profile_pic': '', 'text': '', 'user_name': ''}]);
 
 
   const handleExpandClick = () => {
@@ -64,7 +65,8 @@ const useStyles = makeStyles((theme) => ({
     axios.post('http://localhost:5000/twitter', {
       'term': term
       },console.log(term))
-      .then(response => console.log(response.data))
+      .then(response => 
+      setDataset(response.data.tweets))
  
 }
 
@@ -75,21 +77,23 @@ useEffect(() => {
 
 
     return (
+      
         <div className={classes.root}>
           <NavBar/>
+          {dataset.map(element => 
             <Box className={classes.box}>
             <Paper className={classes.paper} >
                 <Typography color="textPrimary" fontWeight="fontWeightBold"  variant="h6">
                 {term}
                 <br/>
-                Streaming Twitter Sentiment Analysis Coming Soon 
+           
                 </Typography>
                
                 <Typography paragraph>
                
-                {/* <Avatar aria-label="tweet" className={classes.large} src = "https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fblogs-images.forbes.com%2Fceliashatzman%2Ffiles%2F2017%2F09%2FRihanna-Headshot-1200x1800.jpg">
+                <Avatar aria-label="tweet" className={classes.large} src = {element.profile_pic}>
                 </Avatar>
-               */}
+              
   
                 <IconButton
                 className={clsx(classes.expand, {
@@ -108,6 +112,7 @@ useEffect(() => {
             </Collapse>     
             </Paper>
             </Box>
+            )}
         </div>
 )
 }
