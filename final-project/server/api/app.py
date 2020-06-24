@@ -239,23 +239,21 @@ def return_ngrams ():
 
 
 @app.route('/twitter', methods = ['GET', 'POST'])
-
-#route handling 
+#route handling
 def return_tweets():
     query = request.get_json()
     # Authenticate to Twitter
     auth = tweepy.AppAuthHandler(credential.api_key, credential.api_secret)
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
+    tweets = tweepy.Cursor(api.search, lang='en', q=query).items(10)
+    t = []
+
+    for tweet in tweets:
+        t.append({'text': tweet.text,'profile_pic': tweet.user.profile_image_url,'user_screen_name': tweet.user.screen_name,'created_at': tweet.created_at})    
     
-    # add parameteres rpp=10, lang = "en"
-    for tweet in tweepy.Cursor(api.search, lang='en', q=query).items(10):
-        return jsonify(
-            [{'text': tweet.text}, {'profile_pic': tweet.user.profile_image_url}, {'user_screen_name': tweet.user.screen_name}])
+    return jsonify({'tweets': t})
         
-    #     # 'created at: ', tweet.created_at, 'tweet content ' + tweet.text, 
-    #     # 'profile pic url ' + tweet.user.profile_image_url_https, 'user name ' +
-    #     # tweet.user.name, 'user location ' + tweet.user.location, 'screen name '
-        # + tweet.user.screen_name)
+ 
 
 if __name__ == '__main__':
     app.run(debug = True, port=5000) 
