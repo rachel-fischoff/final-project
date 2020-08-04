@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState } from 'react';
+import {useState, useEffect } from 'react';
 import {Link} from 'react-router-dom'
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { makeStyles } from '@material-ui/core/styles';
@@ -26,20 +26,12 @@ export default function SearchBarText () {
   const classes = useStyles()
 
   const [inputValue, setInputValue] = useState('')
+  
 
   const handleInput = (event) => {
     setInputValue(event.target.value);
   }
 
-const fetchData = async () => {
-  const response = await axios.post('http://localhost:5000/text', 
-   
-    {'text': inputValue}
-  )
-  .then(function (response) {
-    console.log(response);
-  })
-}
 
     return ( 
           <div>
@@ -55,8 +47,7 @@ const fetchData = async () => {
                       size="large"
                       type = "submit"
                       startIcon={<InputIcon>InputIcon</InputIcon>}
-                      onClick={fetchData}
-      
+                      // onClick={fetchData}
                       >
                       Predict Sentiment
                      </Button> 

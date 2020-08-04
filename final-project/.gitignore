@@ -9,6 +9,3 @@ node_modules/
 venv
 __pycache__
 
-
-#credentials
-server/api/credentials.py

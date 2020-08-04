@@ -33,27 +33,13 @@ export default function SearchBarTwitter () {
       setTerm(event.target.value);
     };
   
-
-    const fetchData = async () => {
-
-      console.log('put twitter api info')
-      // const response = await axios.post('http://localhost:5000/text', 
-       
-      //   {'text': inputValue}
-      // )
-      // .then(function (response) {
-      //   console.log(response);
-      // })
-     
-    }
-
       return ( 
           <div>
             <NavBar/>
                 <div className={classes.root} >
                 <h2>Find Tweets by Subject</h2>
         
-                    <OutlinedInput id="component-outlined 2" value={term} onChange={handleChange}/>
+                    <OutlinedInput id="component-outlined 2"  placeholder = "Twitter Coming Soon" value={term} onChange={handleChange}/>
                     <Link to={{ pathname: "/twitter/sentiment", state: {term: term}}}>
                       <Button
                         variant="contained"
@@ -62,7 +48,7 @@ export default function SearchBarTwitter () {
                         size="large"
                         type = "submit"
                         startIcon={<InputIcon>InputIcon</InputIcon>}
-                        onClick={fetchData}
+                        // onClick={fetchData}
         
                         >
                         Predict Sentiment

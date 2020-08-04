@@ -12,7 +12,7 @@ export default function NGramTwitterResults(props) {
     const [sentiment, setSentiment] = useState('')
 
     return (
-        <div> to put twitter ngrams here  </div>
+        <div> Streaming Twitter Sentiment Analysis Coming Soon  </div>
     )
 
 }

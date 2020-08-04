@@ -8,7 +8,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 import numpy as np
 import pandas as pd
 import csv, json, re 
-
+import sklearn 
 from sklearn.feature_extraction.text import CountVectorizer
 
 def run_ngrams():
@@ -62,18 +62,18 @@ def run_ngrams():
 
     #returns a csv that is alphabetized  
 
-    #adds total word column to the csv
-    df = pd.read_csv('ngram.csv')
-    df['totalwords'] = [len(x.split()) for x in df['ngram'].tolist()]
-    #sorts values by total words 
-    df = df.sort_values(by=['totalwords'])
-    #writes the sorted column to the ngram.csv
-    df = df.to_csv(r'ngram.csv', index = False, header=True)
+    # #adds total word column to the csv
+    # df = pd.read_csv('ngram.csv')
+    # df['totalwords'] = [len(x.split()) for x in df['ngram'].tolist()]
+    # #sorts values by total words 
+    # df = df.sort_values(by=['totalwords'])
+    # #writes the sorted column to the ngram.csv
+    # df = df.to_csv(r'ngram.csv', index = False, header=True)
 
-    #create a new csv with the singular words and scores only - 
-    df = pd.read_csv('ngram.csv')
-    df = df.loc[df['totalwords'] == 1]
-    df = df.to_csv(r'words.csv', index = False, header=True)
+    # #create a new csv with the singular words and scores only - 
+    # df = pd.read_csv('ngram.csv')
+    # df = df.loc[df['totalwords'] == 1]
+    # df = df.to_csv(r'words.csv', index = False, header=True)
 
     
 if __name__ == "__main__":

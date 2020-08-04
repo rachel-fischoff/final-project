@@ -1,18 +1,21 @@
 import React from 'react';
-import {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper'
-import clsx from 'clsx'
+import Paper from '@material-ui/core/Paper';
+import clsx from 'clsx';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Box from '@material-ui/core/Box'
-import NavBar from './nav_bar'
-import NGramTextResults from './n_gram_fetch'
-import axios from 'axios'
-import Chip from '@material-ui/core/Chip'
-
+import Box from '@material-ui/core/Box';
+import NavBar from './nav_bar';
+import NGramTextResults from './n_gram_fetch';
+import axios from 'axios';
+import Chip from '@material-ui/core/Chip';
+import Button from '@material-ui/core/Button'
+import {Link} from 'react-router-dom'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import HomeIcon from '@material-ui/icons/Home';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -63,9 +66,12 @@ const useStyles = makeStyles((theme) => ({
   
     const classes = useStyles();
     const inputValue = props.location.state.inputValue
+    console.log(props)
 
     const [expanded, setExpanded] = useState(false)
-    const [dataset, setDataset] = useState([])
+    const [words, setWords] = useState([])
+    const [dataset, setDataset] = useState({ngrams: [], scores: [{ 'compound': 0, 'neg': 0, 'neu': 0, 'pos': 0}], total_words: []})
+
  
     const handleExpandClick = () => {
 
@@ -74,14 +80,26 @@ const useStyles = makeStyles((theme) => ({
   
 
     const fetchData = async () => {
-      const res = await axios.get('http://localhost:5000/words');
-      setDataset(res.data);   
-      console.log(dataset, 'text results word by word')
-  }
+      axios.post('http://localhost:5000/text', {
+          'text': inputValue
+        })
+        .then(response => console.log(response.data))
+        .then(data => {
+          axios.get('http://localhost:5000/words')
+            .then(response => setWords(response.data))
+            .then(data => {
+              axios.get('http://localhost:5000/ngrams')
+                .then(response => setDataset(response.data))
+            })
+        })
+        .catch(error => console.log(error));
 
+    }
+  
   useEffect(() => {
-    fetchData();
+      fetchData();
   }, []);
+
 
   // Figure out how to map from dataset
    const renderText = () => (
@@ -101,9 +119,8 @@ const useStyles = makeStyles((theme) => ({
           
                     
 
-                    {dataset.map((element)  => { 
-                    
-                      if(element[1] > 0) {
+                    {words.map((element, index)  => { 
+                      if(element[2].pos > 0) {
            
                       return (
                     <Chip
@@ -111,33 +128,44 @@ const useStyles = makeStyles((theme) => ({
                     label = {element[0]}
                     clickable
                     style={{backgroundColor:'#4caf50'}}
-                    key={element[1]}
+                    key={index}
                     /> )
                       }
                 
-                      if (element[1] < -.5) {
+                      if (element[2].neu > 0) {
                       return (
                     <Chip
                     className ={classes.chip}
                     label = {element[0]}
                     clickable
-                    style={{backgroundColor:'#d32f2f'}}
-                    key={element[1]}
+                    style={{backgroundColor:'#ffee58'}}
+                    key={index}
                     /> 
                       )
                       }
-                      if(0 > element[1] > -.5) {
+                      if(element[2].neg > 0) {
                         return (
                       <Chip
                       className ={classes.chip}
                       label = {element[0]}
                       clickable
-                      key={element[1]}
-                      style={{backgroundColor:'#ffee58'}}
+                      key={index}
+                      style={{backgroundColor:'#d32f2f'}}
                       /> 
                         )
                         }
-                      })}
+                        else{
+                          return(
+                        <Chip
+                        className ={classes.chip}
+                        label = {element[0]}
+                        clickable
+                        style={{backgroundColor: '#2196f3' }}
+                        key={index}
+                        /> 
+                    )} 
+                    
+                    })}
 
 
 
@@ -159,10 +187,38 @@ const useStyles = makeStyles((theme) => ({
                 </IconButton>
                 </Typography>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <NGramTextResults />
+                <NGramTextResults dataset ={dataset}/>
               </Collapse>     
               </Paper>
             </Box>
+
+
+
+
+            <Link to={{ pathname: "/text" }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  size="large"
+                  type = "submit"
+                  startIcon={<ArrowBackIcon>ArrowBackIcon</ArrowBackIcon>}
+                    >
+                    Go Back 
+                  </Button> 
+                </Link>  
+                <Link to={{ pathname: "/home" }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  size="large"
+                  type = "submit"
+                  startIcon={<HomeIcon>HomeIcon</HomeIcon>}
+                    >
+                    Home 
+                    </Button> 
+                  </Link>  
             </div>
    )
     

@@ -3,7 +3,6 @@ import {useEffect, useState} from 'react';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import axios from 'axios'
 import Chip from '@material-ui/core/Chip';
 import Divider from '@material-ui/core/Divider'
 import List from '@material-ui/core/List';
@@ -46,42 +45,39 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NGramExampleResults(props) {
 
-    const [dataset, setDataset] = useState({ngram: [], score: [], totalwords: []})
+    const [dataset, setDataset] = useState({ngrams: [], scores: [{ 'compound': 0, 'neg': 0, 'neu': 0, 'pos': 0}], total_words: []})
 
     const classes = useStyles ();
 
     useEffect(() => {
         setDataset(props.dataset)
-    }, []);
+        console.log(props.dataset)
+    }, [props.dataset]);
 
     const renderNgramChips = () => {
     
 
-
-      const combinedArray = dataset.ngram.map((item, index) => {
-          return [item, dataset.score[index], dataset.totalwords[index]];
+      const combinedArray = dataset.ngrams.map((item, index) => {
+          return [item, dataset.scores[index]];
           })
       
        const posNgrams = []
        const negNgrams = []
        const neuNgrams = []
-
-       console.log(combinedArray, 'combinedArray')
-
+       const otherNgrams = []
+  
 
   
-       const avg4 = () => dataset.score.reduce((a, x) => a + x, 0) / dataset.score.length
-       console.log(avg4())
-  
-  
-       //  Line 86:40:  Expected to return a value in arrow function  array-callback-return
-      combinedArray.map((element, index) => {
-          if(combinedArray[index][1] > 0) 
+        combinedArray.map((element, index) => {
+          console.log(element)
+          if(combinedArray[index][1].pos > 0) 
           posNgrams.push(element)
-          else if (combinedArray[index][1] < -.5)
+          else if (combinedArray[index][1].neg > 0)
           negNgrams.push(element)
-          else
+          else if((combinedArray[index][1].neu > 0))
           neuNgrams.push (element)
+          else
+          otherNgrams.push(element)
              
       })
   
@@ -92,14 +88,15 @@ export default function NGramExampleResults(props) {
             <List >
               <ListItem className = {classes.list}>
                   <Typography> positive </Typography>
-        
-                 {posNgrams.map(element =>
+                  <br/>
+                 {posNgrams.map((element, index) =>
+              
                  <Chip
                  className ={classes.chip}
                  label = {element[0]}
                  clickable
                  style={{backgroundColor:'#4caf50'}}
-                 key={element[1]}
+                 key={index}
                  /> 
                
                  )}
@@ -109,12 +106,12 @@ export default function NGramExampleResults(props) {
                 <ListItem className = {classes.list}>
                 <Typography> neutral </Typography>
                   <br/>
-                 {neuNgrams.map(element => 
+                 {neuNgrams.map((element, index) => 
                  <Chip
                  className ={classes.chip}
                  label = {element[0]}
                  clickable
-                 key={element[1]}
+                 key={index}
                  style={{backgroundColor:'#ffee58'}}
               
                  /> )}
@@ -123,22 +120,33 @@ export default function NGramExampleResults(props) {
                   <ListItem className = {classes.list}>
                   <Typography> negative </Typography>
                   <br/>
-                 {negNgrams.map(element =>
+                 {negNgrams.map((element, index) =>
                  <Chip
                  className ={classes.chip}
                  label = {element[0]}
                  clickable
                  style={{backgroundColor: '#d32f2f' }}
-                 key={element[1]}
+                 key={index}
                  /> )}
                 </ListItem>
   
               <Divider  component="li"/>
+              <Typography> words not counted </Typography>
+              <br/>
+              {otherNgrams.map((element, index) =>
+                 <Chip
+                 className ={classes.chip}
+                 label = {element[0]}
+                 clickable
+                 style={{backgroundColor: '#2196f3' }}
+                 key={index}
+                 /> )}
             </List>
           </CardContent>
         </div>
         )
       }
+  
   
   
   
