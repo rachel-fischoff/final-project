@@ -8,3 +8,7 @@ node_modules/
 #python
 venv
 __pycache__
+
+
+#credentials
+server/api/credentials.py
